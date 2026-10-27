@@ -22,14 +22,14 @@
   .label{display:inline-block;background:var(--soma-mint);color:var(--soma-navy);
     font:400 clamp(22px,3.4vw,28px)/1.2 var(--soma-font);padding:8px 16px;margin:0 0 22px}
 
-  /* Add a person by copying one <li> in .people */
+  /* Add a person by copying one <li> in .people (photo: 320x320 JPEG in assets/team/) */
   .people{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
-  .people li{background:var(--soma-paper);border:1px solid var(--soma-line);border-top:4px solid var(--soma-mint);padding:20px}
-  .avatar{width:56px;height:56px;border-radius:50%;background:var(--soma-navy);color:var(--soma-mint);
-    display:grid;place-items:center;font:600 19px/1 var(--soma-font);margin-bottom:14px}
+  .people li{background:var(--soma-paper);border:1px solid var(--soma-line);border-top:4px solid var(--soma-mint);padding:22px}
+  .people img{display:block;width:96px;height:96px;border-radius:50%;object-fit:cover;margin-bottom:16px;
+    background:var(--soma-grey);box-shadow:0 0 0 3px var(--soma-paper),0 0 0 5px var(--soma-mint)}
   .people h3{font:600 18px/1.3 var(--soma-font);color:var(--soma-heading);margin:0 0 4px}
-  .people .role{font-size:14.5px;color:var(--soma-text-2);margin:0 0 8px}
-  .people .links{font-size:13.5px;margin:0}
+  .people .inst{font-size:13.5px;font-weight:600;color:var(--soma-text-2);margin:0 0 10px;text-transform:uppercase;letter-spacing:.03em}
+  .people .bio{font-size:14.5px;line-height:1.6;color:var(--soma-text-2);margin:0}
 </style>
 </head>
 <body>
@@ -56,10 +56,32 @@
     <h2 class="label"><span data-lang="en">People</span><span data-lang="pt" hidden>Pessoas</span></h2>
     <ul class="people">
       <li>
-        <div class="avatar" aria-hidden="true">BM</div>
-        <h3>Bernardo Munayer</h3>
-        <p class="role"><span data-lang="en">Concept and development</span><span data-lang="pt" hidden>Concepção e desenvolvimento</span></p>
-        <p class="links"><a href="https://codeberg.org/Munayer">Codeberg</a></p>
+        <img src="assets/team/jamile.jpg" alt="Jamile Bergamaschine Mata Diz" width="96" height="96" loading="lazy">
+        <h3>Jamile Bergamaschine Mata Diz</h3>
+        <p class="inst">UFMG</p>
+        <p class="bio" data-lang="pt" hidden>Professora titular de direito europeu da Faculdade de Direito da UFMG. Coordenadora do Centro de Excelência Jean Monnet (CEJM). Cátedra Jean Monnet em Direito. Coordenadora do Observatório de Políticas Públicas Sustentáveis.</p>
+        <p class="bio" data-lang="en">Full professor of European law at the Faculty of Law of UFMG. Coordinator of the Jean Monnet Centre of Excellence (CEJM). Jean Monnet Chair in Law. Coordinator of the Observatory of Sustainable Public Policies.</p>
+      </li>
+      <li>
+        <img src="assets/team/beatriz.jpg" alt="Beatriz Souza Costa" width="96" height="96" loading="lazy">
+        <h3>Beatriz Souza Costa</h3>
+        <p class="inst">Dom Helder</p>
+        <p class="bio" data-lang="pt" hidden>Pós-doutora pela Universidad de Castilla-La Mancha (Toledo, Espanha); doutora e mestre em Direito Constitucional pela UFMG. Pós-graduada em Direito Ambiental e Desenvolvimento Sustentável. Professora do Programa de Pós-Graduação em Direito Ambiental do Centro Universitário Dom Helder.</p>
+        <p class="bio" data-lang="en">Postdoctoral researcher at the University of Castilla-La Mancha (Toledo, Spain); PhD and master's in Constitutional Law from UFMG. Postgraduate degree in Environmental Law and Sustainable Development. Professor in the Graduate Programme in Environmental Law at Dom Helder University Centre.</p>
+      </li>
+      <li>
+        <img src="assets/team/bernardo.jpg" alt="Bernardo Máximo Munayer" width="96" height="96" loading="lazy">
+        <h3>Bernardo Máximo Munayer</h3>
+        <p class="inst">Dom Helder</p>
+        <p class="bio" data-lang="pt" hidden>Mestre em Direito Ambiental e Desenvolvimento Sustentável e professor assistente no Centro Universitário Dom Helder, onde se graduou em Direito. Pesquisa Direito Constitucional, Ambiental e do Mar; integra o Grupo de Pesquisa Estratégico da Pan-Amazônia. Advogado ambiental e assessor especial da Presidência do Instituto Brasileiro de Direito do Mar (IBDMAR).</p>
+        <p class="bio" data-lang="en">Master's in Environmental Law and Sustainable Development and assistant professor at Dom Helder University Centre, which also awarded the law degree. Research in constitutional law, environmental law and the law of the sea; member of the Pan-Amazon Strategic Research Group. Environmental lawyer and special adviser to the President of the Brazilian Institute of the Law of the Sea (IBDMAR).</p>
+      </li>
+      <li>
+        <img src="assets/team/thamires.jpg" alt="Thamires Venâncio Duarte" width="96" height="96" loading="lazy">
+        <h3>Thamires Venâncio Duarte</h3>
+        <p class="inst">Dom Helder</p>
+        <p class="bio" data-lang="pt" hidden>Mestranda em Direito pelo Centro Universitário Dom Helder. Pós-graduanda em Direito Penal e Criminologia pela PUCRS. Membro da Comissão de Criminologia da OAB/MG e do grupo de pesquisa AMET. Associada ao IBDMAR. Advogada.</p>
+        <p class="bio" data-lang="en">Master's student in Law at Dom Helder University Centre. Postgraduate student in Criminal Law and Criminology at PUCRS. Member of the Criminology Committee of OAB/MG and of the AMET research group. Member of IBDMAR. Lawyer.</p>
       </li>
     </ul>
   </div>
