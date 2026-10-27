@@ -9,9 +9,9 @@ from datetime import date
 import numpy as np
 import pytest
 
-from minerva.detectors import change, deformation, footprint, volume, water
-from minerva.detectors.base import grade_reliability
-from minerva.providers.synthetic import SyntheticProvider, SyntheticSite
+from soma.detectors import change, deformation, footprint, volume, water
+from soma.detectors.base import grade_reliability
+from soma.providers.synthetic import SyntheticProvider, SyntheticSite
 
 
 def _provider():
@@ -150,8 +150,8 @@ def test_no_breakpoint_on_a_steady_site():
     system that tells a regulator about a regime change every time a short,
     cloud-thinned series wobbles.
     """
-    from minerva.detectors.base import Observation
-    from minerva.version import ALGORITHM_VERSIONS
+    from soma.detectors.base import Observation
+    from soma.version import ALGORITHM_VERSIONS
     rng = np.random.default_rng(3)
     obs = []
     for i in range(30):
@@ -167,8 +167,8 @@ def test_no_breakpoint_on_a_steady_site():
 
 
 def test_breakpoint_is_found_when_the_change_is_real():
-    from minerva.detectors.base import Observation
-    from minerva.version import ALGORITHM_VERSIONS
+    from soma.detectors.base import Observation
+    from soma.version import ALGORITHM_VERSIONS
     import datetime as _dt
     rng = np.random.default_rng(4)
     obs = []

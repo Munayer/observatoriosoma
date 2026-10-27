@@ -10,7 +10,7 @@ import math
 import numpy as np
 import pytest
 
-from minerva.geom import (Grid, buffer_ring, geodesic_area_ha, geodesic_area_m2,
+from soma.geom import (Grid, buffer_ring, geodesic_area_ha, geodesic_area_m2,
                           points_in_ring, ring_from_bbox)
 
 
@@ -30,7 +30,7 @@ def test_square_area_at_equator():
 
 def test_hemisphere_area():
     """Sanity bound: the northern hemisphere is half the ellipsoid's surface."""
-    from minerva.geom import geodesic_area_m2
+    from soma.geom import geodesic_area_m2
     ring = [(-180.0, 0.0), (-90.0, 0.0), (0.0, 0.0), (90.0, 0.0), (180.0, 0.0),
             (180.0, 90.0), (-180.0, 90.0), (-180.0, 0.0)]
     got = geodesic_area_m2(ring)

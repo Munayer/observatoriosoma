@@ -468,7 +468,7 @@ class Dossier:
             "- The ledger is append-only and hash-chained: every entry carries the "
             "hash of its predecessor, so removal or alteration of any earlier entry "
             "invalidates every later one. The chain may be verified independently "
-            "with `minerva ledger verify`.",
+            "with `soma ledger verify`.",
             "",
             "## Nature of the evidence",
             "",

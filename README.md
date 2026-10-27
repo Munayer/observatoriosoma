@@ -1,10 +1,7 @@
-# MINERVA
+# Observatório SOMA
 
-**Mineral Extraction Verification & Regulatory Accountability**
 An open mirror of the mining operator's software stack, built for the public sector out of
-public data. The name is also a deliberate pun: Minerva is the goddess of wisdom, strategy
-and justice, and her owl misses little in the dark — the function this project performs is
-quiet, evidence-grade oversight, not surveillance.
+public data.
 
 Prototype, version 0.1.0. Runs on simulated imagery out of the box; the production provider
 is written against live Copernicus endpoints.
@@ -13,7 +10,7 @@ is written against live Copernicus endpoints.
 
 ## Documentation
 
-Everything written about this project lives in one file: **`docs/00-MINERVA.md`** — summary,
+Everything written about this project lives in one file: **`docs/00-SOMA.md`** — summary,
 full report, technical architecture, demonstration transcript, GIS prototype notes, and the
 sourced evidence base behind every factual claim, each numbered 1–7 with plain decimal
 sub-numbers (2.1, 2.9.3 — no roman numerals) and closed out with an ISO 690 reference list
@@ -22,13 +19,13 @@ English and Brazilian Portuguese, full parity, same numbering in both.
 
 Three companion HTML files, each self-contained (no build step, no server):
 
-- **`minerva-report.html`** — the document above as a minimal reading view, with an EN/PT
+- **`report.html`** — the document above as a minimal reading view, with an EN/PT
   language toggle and a section rail.
-- **`minerva-map.html`** — a GIS prototype: the four demonstration sites on a map, each with
+- **`map.html`** — a GIS prototype: the four demonstration sites on a map, each with
   its cross-agency reference chain (ANM, IBAMA, ICMBio, FUNAI, INCRA, ANA) and an
   evidence-thread panel, exportable as CSV or GeoJSON. Kept as its own file because it needs
   to fetch map tiles over the network. See §6 of the report for how and why.
-- **`minerva-dashboard.html`** — the operational view, the four-site case-queue demonstration.
+- **`dashboard.html`** — the operational view, the four-site case-queue demonstration.
 
 `docs/03-catalogues.xlsx` is the reference workbook: every public data source, open-source
 component, jurisdiction (cadastre, royalty regime, dam-safety rule, due-process basis) and
@@ -41,9 +38,9 @@ the vendor landscape this architecture responds to, plus a live cost model.
 No installation, no network, no configuration:
 
 ```bash
-cd minerva
-PYTHONPATH=src python3 -m minerva.cli demo --out data/out
-PYTHONPATH=src python3 -m minerva.cli ledger verify --root data/out/cases
+cd observatoriosoma
+PYTHONPATH=src python3 -m soma.cli demo --out data/out
+PYTHONPATH=src python3 -m soma.cli ledger verify --root data/out/cases
 python3 tests/run_tests.py
 ```
 
@@ -51,13 +48,13 @@ The four-site demonstration and the dashboard:
 
 ```bash
 PYTHONPATH=src python3 -c "
-from minerva.portfolio import run_portfolio
-from minerva.dashboard import build
+from soma.portfolio import run_portfolio
+from soma.dashboard import build
 run_portfolio('data/out')
-build('data/out', 'minerva-dashboard.html')"
+build('data/out', 'dashboard.html')"
 ```
 
-Then open `minerva-dashboard.html` in any browser.
+Then open `dashboard.html` in any browser.
 
 ### Requirements
 
@@ -141,7 +138,7 @@ In the bundled four-site demonstration, the only case publicly visible is the on
 ## Layout
 
 ```
-src/minerva/
+src/soma/
   geom.py            ellipsoidal geometry (authalic-latitude polygon area), no GIS stack
   scene.py           the unit of observation; content hashing; fixed-stretch rendering
   indices.py         NDVI, NDWI, MNDWI, NDMI, NBR, BSI, NDTI — with citations
@@ -166,7 +163,7 @@ src/minerva/
   pipeline.py        end-to-end run for one site
   portfolio.py       the four-site demonstration
   dashboard.py       self-contained HTML build
-  cli.py             minerva demo | ledger | case
+  cli.py             soma demo | ledger | case
 tests/               49 tests; pytest, or tests/run_tests.py with no pytest installed
 ```
 
@@ -177,7 +174,7 @@ tests/               49 tests; pytest, or tests/run_tests.py with no pytest inst
 Replace the provider:
 
 ```python
-from minerva.providers import StacSentinel2Provider
+from soma.providers import StacSentinel2Provider
 provider = StacSentinel2Provider(catalogue="cdse", token=my_token)
 ```
 

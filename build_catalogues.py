@@ -65,13 +65,13 @@ def title_block(ws, title, subtitle):
 ws = wb.active
 ws.title = "Read me"
 ws.sheet_view.showGridLines = False
-ws["A1"] = "MINERVA — reference catalogues"
+ws["A1"] = "Observatório SOMA — reference catalogues"
 ws["A1"].font = Font(name=FONT, size=18, bold=True, color="1F3864")
 lines = [
     ("", ""),
     ("Prepared for", "Bernardo Munayer"),
     ("Date", "19 August 2026"),
-    ("Companion to", "00-MINERVA.md · minerva-report.html · minerva-dashboard.html"),
+    ("Companion to", "00-SOMA.md · report.html · dashboard.html"),
     ("", ""),
     ("What this workbook is",
      "Every public data source and every open-source component behind the proposed "

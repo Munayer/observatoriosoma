@@ -10,14 +10,14 @@ from pathlib import Path
 
 import pytest
 
-from minerva.cases import (Case, CaseRegister, CaseState, DueProcessError,
+from soma.cases import (Case, CaseRegister, CaseState, DueProcessError,
                            PublicationState, Response)
-from minerva.crosscheck import cadastre as cad
-from minerva.crosscheck.declaration import (Declaration, build_peer_stat,
+from soma.crosscheck import cadastre as cad
+from soma.crosscheck.declaration import (Declaration, build_peer_stat,
                                             cross_filing_check, reconcile)
-from minerva.dossier import BRAZIL, Dossier, SyntheticEvidenceError
-from minerva.evidence import EvidenceManifest, Ledger, sha256_of
-from minerva.geom import Grid, ring_from_bbox
+from soma.dossier import BRAZIL, Dossier, SyntheticEvidenceError
+from soma.evidence import EvidenceManifest, Ledger, sha256_of
+from soma.geom import Grid, ring_from_bbox
 
 
 # --------------------------------------------------------------------------
@@ -261,7 +261,7 @@ def test_cross_filing_check_is_quiet_when_consistent():
 
 def test_no_legal_act_from_simulated_evidence():
     m = EvidenceManifest.create("S1", "q")
-    m.add_dataset("SYNTH-1", "minerva.providers.synthetic",
+    m.add_dataset("SYNTH-1", "soma.providers.synthetic",
                   "simulation — not evidence")
     m.seal()
     c = _case()

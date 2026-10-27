@@ -1,11 +1,11 @@
-"""Build minerva-report.html — a minimal single-file reading view of docs/00-MINERVA.md,
+"""Build report.html — a minimal single-file reading view of docs/00-SOMA.md,
 with an EN/PT language toggle. Reads the two source markdown files directly (built by the
-assembly scripts) rather than re-splitting the combined docs/00-MINERVA.md."""
+assembly scripts) rather than re-splitting the combined docs/00-SOMA.md."""
 
 import re
 import markdown
 
-OUT = "minerva-report.html"
+OUT = "report.html"
 
 
 def convert(md_path, lang):
@@ -86,7 +86,7 @@ nav_html = "\n".join(
     for n in all_nums
 )
 
-TEMPLATE = """<title>MINERVA</title>
+TEMPLATE = """<title>Observatório SOMA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -367,7 +367,7 @@ tr:nth-child(even) td { background: color-mix(in srgb, var(--paper-raised) 60%, 
 <div class="shell">
   <aside class="rail" id="rail">
     <div class="mark">
-      <div class="brand"><span class="glyph">M</span><span class="word">MINERVA</span></div>
+      <div class="brand"><span class="glyph">S</span><span class="word">Observatório SOMA</span></div>
     </div>
     <div class="langswitch" role="group" aria-label="Language / Idioma">
       <button type="button" data-lang="en" id="btnEn">EN</button>
@@ -380,8 +380,8 @@ tr:nth-child(even) td { background: color-mix(in srgb, var(--paper-raised) 60%, 
       __NAV__
     </nav>
     <div class="rail-foot">
-      <span class="l-en">Single-document edition · 19 Aug 2026<br>Companion: <code>minerva-map.html</code>, <code>minerva-dashboard.html</code>, <code>03-catalogues.xlsx</code></span>
-      <span class="l-pt" hidden>Edição em documento único · 19 ago 2026<br>Companheiros: <code>minerva-map.html</code>, <code>minerva-dashboard.html</code>, <code>03-catalogues.xlsx</code></span>
+      <span class="l-en">Single-document edition · 19 Aug 2026<br>Companion: <code>map.html</code>, <code>dashboard.html</code>, <code>03-catalogues.xlsx</code></span>
+      <span class="l-pt" hidden>Edição em documento único · 19 ago 2026<br>Companheiros: <code>map.html</code>, <code>dashboard.html</code>, <code>03-catalogues.xlsx</code></span>
     </div>
   </aside>
   <article>
@@ -392,7 +392,7 @@ tr:nth-child(even) td { background: color-mix(in srgb, var(--paper-raised) 60%, 
 
 <script>
 (function () {
-  var LANG_KEY = "minerva-lang";
+  var LANG_KEY = "soma-lang";
   var lang = "en";
   try {
     var saved = localStorage.getItem(LANG_KEY);

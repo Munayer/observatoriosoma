@@ -1,9 +1,9 @@
 """Command line.
 
-    minerva demo            run the simulated site end to end
-    minerva ledger verify   check the integrity of the evidence chain
-    minerva case show       print a case and its dossiers
-    minerva notice          emit the administrative notice for a case
+    soma demo            run the simulated site end to end
+    soma ledger verify   check the integrity of the evidence chain
+    soma case show       print a case and its dossiers
+    soma notice          emit the administrative notice for a case
 """
 
 from __future__ import annotations
@@ -18,7 +18,7 @@ from .dossier import SyntheticEvidenceError
 
 
 def main(argv=None) -> int:
-    ap = argparse.ArgumentParser(prog="minerva", description=__doc__,
+    ap = argparse.ArgumentParser(prog="soma", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
 

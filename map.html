@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MINERVA — GIS Prototype</title>
+<title>Observatório SOMA — GIS Prototype</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -144,9 +144,9 @@ code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 3px; }
 <body>
 <div class="shell">
   <aside class="sitelist">
-    <div class="mark"><span class="glyph">M</span> MINERVA — GIS prototype</div>
+    <div class="mark"><span class="glyph">S</span> Observatório SOMA — GIS prototype</div>
     <div class="tagline">Where the case geography and the cross-agency paper trail meet. Click a site.</div>
-    <div class="banner"><strong>All data on this page is synthetic</strong> — the same four demonstration sites used throughout the report, with fabricated registry numbers. No real company, site, or agency record is represented. See §6.3 of the <a href="minerva-report.html#en-63-what-is-synthetic-and-said-so">main report</a> for methodology.</div>
+    <div class="banner"><strong>All data on this page is synthetic</strong> — the same four demonstration sites used throughout the report, with fabricated registry numbers. No real company, site, or agency record is represented. See §6.3 of the <a href="report.html#en-63-what-is-synthetic-and-said-so">main report</a> for methodology.</div>
     <div id="siteListEl"></div>
   </aside>
   <div id="map"></div>
@@ -159,7 +159,7 @@ code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 3px; }
 <script>
 // ---------------------------------------------------------------------------
 // Synthetic demonstration data — mirrors the four sites in the main report's
-// portfolio (src/minerva/portfolio.py). Coordinates match; polygons are
+// portfolio (src/soma/portfolio.py). Coordinates match; polygons are
 // illustrative (a few km across, not the pipeline's exact computed geometry).
 // Every registry reference below is fabricated for this prototype.
 // ---------------------------------------------------------------------------
@@ -344,7 +344,7 @@ function exportAllGeoJSON() {
       };
     }),
   };
-  downloadText("minerva_sites_cross_agency.geojson", JSON.stringify(fc, null, 2), "application/geo+json");
+  downloadText("soma_sites_cross_agency.geojson", JSON.stringify(fc, null, 2), "application/geo+json");
 }
 
 function downloadText(filename, text, mime) {

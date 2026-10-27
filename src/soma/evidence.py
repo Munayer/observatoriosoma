@@ -113,7 +113,7 @@ class EvidenceManifest:
             site_id=site_id,
             question=question,
             created_utc=now,
-            software={"minerva": __version__, "python": os.sys.version.split()[0]},
+            software={"soma": __version__, "python": os.sys.version.split()[0]},
             jurisdiction=jurisdiction,
             prev_hash=prev_hash,
         )
@@ -257,7 +257,7 @@ def replay_recipe(manifest: EvidenceManifest) -> str:
         f"# Sealed:   {manifest.created_utc} (hash {manifest.manifest_hash[:16]}…)",
         "",
         "# 1. Software",
-        f"pip install 'minerva=={manifest.software.get('minerva', __version__)}'",
+        f"pip install 'soma=={manifest.software.get('soma', __version__)}'",
         "",
         "# 2. Inputs",
     ]
@@ -277,5 +277,5 @@ def replay_recipe(manifest: EvidenceManifest) -> str:
     for o in manifest.outputs:
         lines.append(f"#   {o['name']} = {o['value']} {o['units']} "
                      f"(digest {o['digest'][:16]}…)")
-    lines += ["", "minerva replay --manifest " + manifest.manifest_id + ".json"]
+    lines += ["", "soma replay --manifest " + manifest.manifest_id + ".json"]
     return "\n".join(lines)

@@ -1,4 +1,4 @@
-# MINERVA
+# Observatório SOMA
 
 **A landscape review, an asymmetry analysis, and a working prototype of an open public-sector platform**
 
@@ -39,11 +39,8 @@ mapped mining disturbance, 92% of it in the Amazon (§2.3). No plausible increas
 headcount closes that gap. A satellite that revisits every point on Earth every few days, for
 free, might.
 
-**MINERVA** — *Mineral Extraction Verification & Regulatory Accountability* — is the
-prototype built in response. It is also a deliberate pun: Minerva is the goddess of wisdom,
-strategy and justice, and her owl is a symbol of watchfulness that misses little in the dark
-— fitting for an instrument whose job is quiet, evidence-grade oversight rather than
-"surveillance," and a name that reads the same in Portuguese and English. One sentence
+**Observatório SOMA** is the
+prototype built in response. One sentence
 governs its design: *every number the system puts on a screen must be re-derivable, by a
 third party, from public inputs, using only the manifest that accompanies it.* Everything
 else — the guarded detectors, the cadastral tolerance applied in the title holder's favour,
@@ -68,7 +65,7 @@ document, section for section, between English and Brazilian Portuguese.
 
 - **§2 — Report.** The full argument: the operator's stack as a specification, the measured
   capability gap, the asymmetry table, the public data and open-source estates, the
-  Luhmannian translation argument, the MINERVA proposal, prototype results and honest limits,
+  Luhmannian translation argument, the Observatório SOMA proposal, prototype results and honest limits,
   deployment tiers and cost, objections taken seriously, and next steps.
 - **§3 — Technical Architecture.** The specification a procurement process needs: layer by
   layer, with the design contract, dependencies, licensing and a repository map.
@@ -83,9 +80,9 @@ document, section for section, between English and Brazilian Portuguese.
 - **§7 — References.** The full bibliography in ISO 690 numeric format, linked from citation
   markers like **[1]** throughout the text above.
 
-Alongside this document: `minerva-map.html` (the GIS prototype, with an OSM map and export),
-`minerva-dashboard.html` (the working operational dashboard — open either in any browser, no
-network needed), `minerva/` (6,100 lines of runnable Python plus 720 lines of tests, zipped),
+Alongside this document: `map.html` (the GIS prototype, with an OSM map and export),
+`dashboard.html` (the working operational dashboard — open either in any browser, no
+network needed), `soma/` (6,100 lines of runnable Python plus 720 lines of tests, zipped),
 and `03-catalogues.xlsx` (every public data source, open-source component and jurisdiction
 this architecture depends on, with licence, access method and maturity).
 
@@ -518,7 +515,7 @@ in government will defend it.
 
 ---
 
-### 2.9 MINERVA: the proposal
+### 2.9 Observatório SOMA: the proposal
 
 #### 2.9.1 The epistemic contract
 
@@ -1291,7 +1288,7 @@ recognition in February 2025.
 ### 3.13 Repository map
 
 ```
-src/minerva/
+src/soma/
   geom.py                  ellipsoidal geometry, no geospatial stack
   scene.py                 the unit of observation; content hashing
   indices.py               spectral indices with citations
@@ -1316,7 +1313,7 @@ src/minerva/
   pipeline.py              end-to-end run for one site
   portfolio.py             the four-site demonstration
   dashboard.py             self-contained HTML build
-  cli.py                   minerva demo | ledger | case
+  cli.py                   soma demo | ledger | case
 tests/                     49 tests; run with pytest or tests/run_tests.py
 ```
 
@@ -1342,7 +1339,7 @@ $ python3 tests/run_tests.py
 ### 4.2 The four-site portfolio
 
 ```
-$ PYTHONPATH=src python3 -c "from minerva.portfolio import run_portfolio; run_portfolio()"
+$ PYTHONPATH=src python3 -c "from soma.portfolio import run_portfolio; run_portfolio()"
 
 SITE         SEVERITY  STATE        DISTURBED   OUTSIDE    INDET   RATE NOW
 BR-PA-0001   critical  contested       129.7h     36.6h     3.6h     4.65/mo
@@ -1389,7 +1386,7 @@ reported as such rather than smoothed over.
 ### 4.4 The evidence ledger, and what happens when it is altered
 
 ```
-$ PYTHONPATH=src python3 -m minerva.cli ledger verify --root data/out/cases
+$ PYTHONPATH=src python3 -m soma.cli ledger verify --root data/out/cases
 {
   "entries": 4,
   "intact": true,
@@ -1723,7 +1720,7 @@ trail sit side by side — where an inspector, a prosecutor or a journalist can 
 and see not only where it is, but which registries already know about it, under which
 number, and whether they agree with each other.
 
-`minerva-map.html` is a working prototype of that surface, built over the same four
+`map.html` is a working prototype of that surface, built over the same four
 demonstration sites used throughout this document. It is delivered as a separate file rather
 than folded into this report, for a specific technical reason: a live map needs to fetch map
 tiles from a tile server over the network, and the sandboxed page this report itself is
@@ -1851,7 +1848,7 @@ Numbered in the order first cited, in ISO 690 numeric-reference format. Brackete
 
 ---
 
-# MINERVA
+# Observatório SOMA
 
 **Uma análise do cenário, uma análise de assimetria, e um protótipo funcional de uma plataforma pública aberta**
 
@@ -1895,13 +1892,7 @@ fiscalizações em queda de 92% em cinco anos, e uma força de trabalho da agên
 (§2.3). Nenhum aumento plausível de quadro fecha essa lacuna. Um satélite que revisita cada
 ponto da Terra a cada poucos dias, de graça, talvez feche.
 
-**MINERVA** — *Mineral Extraction Verification & Regulatory Accountability* (Verificação de
-Extração Mineral e Responsabilização Regulatória) — é o protótipo construído em resposta.
-É também um trocadilho deliberado: Minerva é a deusa da sabedoria, da estratégia e da
-justiça, e sua coruja é símbolo de uma vigilância que nada deixa passar na escuridão —
-adequado para um instrumento cuja função é a fiscalização silenciosa e com padrão
-probatório, e não a "vigilância" no sentido policial, e um nome que se lê igual em português
-e em inglês. Uma frase governa todo o desenho: *todo número que o sistema exibe na tela deve
+O **Observatório SOMA** é o protótipo construído em resposta. Uma frase governa todo o desenho: *todo número que o sistema exibe na tela deve
 ser rederivável, por um terceiro, a partir de insumos públicos, usando apenas o manifesto que
 o acompanha.* Tudo o mais — os detectores com suas travas, a tolerância cadastral aplicada em
 favor do titular, a máquina de estados de devido processo, o livro-razão de evidências
@@ -1925,7 +1916,7 @@ documento inteiro, seção por seção, entre inglês e português do Brasil.
 
 - **§2 — Relatório.** O argumento completo: a pilha do operador como especificação, a lacuna
   de capacidade medida, a tabela de assimetria, os patrimônios de dados públicos e de
-  software livre, o argumento luhmanniano da tradução, a proposta MINERVA, os resultados do
+  software livre, o argumento luhmanniano da tradução, a proposta do Observatório SOMA, os resultados do
   protótipo e seus limites honestos, os níveis de implantação e custo, as objeções levadas a
   sério, e os próximos passos.
 - **§3 — Arquitetura Técnica.** A especificação de que um processo de licitação precisa:
@@ -1943,9 +1934,9 @@ documento inteiro, seção por seção, entre inglês e português do Brasil.
 - **§7 — Referências.** Toda a bibliografia em formato numérico ISO 690, ligada às marcas de
   citação como **[1]** ao longo do texto acima.
 
-Junto a este documento: `minerva-map.html` (o protótipo de SIG, com mapa OSM e exportação),
-`minerva-dashboard.html` (o painel operacional — abra em qualquer navegador, sem necessidade
-de rede), `minerva/` (6.100 linhas de Python executável mais 720 linhas de testes,
+Junto a este documento: `map.html` (o protótipo de SIG, com mapa OSM e exportação),
+`dashboard.html` (o painel operacional — abra em qualquer navegador, sem necessidade
+de rede), `soma/` (6.100 linhas de Python executável mais 720 linhas de testes,
 compactadas), e `03-catalogues.xlsx` (toda fonte de dados públicos, componente de software
 livre e jurisdição de que esta arquitetura depende, com licença, método de acesso e
 maturidade).
@@ -2399,7 +2390,7 @@ em um único ciclo orçamentário ninguém no governo a defenderá.
 
 ---
 
-### 2.9 MINERVA: a proposta
+### 2.9 Observatório SOMA: a proposta
 
 #### 2.9.1 O contrato epistêmico
 
@@ -3203,7 +3194,7 @@ do QGIS em fevereiro de 2025.
 ### 3.13 Mapa do repositório
 
 ```
-src/minerva/
+src/soma/
   geom.py                  ellipsoidal geometry, no geospatial stack
   scene.py                 the unit of observation; content hashing
   indices.py               spectral indices with citations
@@ -3228,7 +3219,7 @@ src/minerva/
   pipeline.py              end-to-end run for one site
   portfolio.py             the four-site demonstration
   dashboard.py             self-contained HTML build
-  cli.py                   minerva demo | ledger | case
+  cli.py                   soma demo | ledger | case
 tests/                     49 tests; run with pytest or tests/run_tests.py
 ```
 
@@ -3254,7 +3245,7 @@ $ python3 tests/run_tests.py
 ### 4.2 A carteira de quatro sítios
 
 ```
-$ PYTHONPATH=src python3 -c "from minerva.portfolio import run_portfolio; run_portfolio()"
+$ PYTHONPATH=src python3 -c "from soma.portfolio import run_portfolio; run_portfolio()"
 
 SITE         SEVERITY  STATE        DISTURBED   OUTSIDE    INDET   RATE NOW
 BR-PA-0001   critical  contested       129.7h     36.6h     3.6h     4.65/mo
@@ -3302,7 +3293,7 @@ de suavizado.
 ### 4.4 O livro-razão de evidências, e o que ocorre quando ele é alterado
 
 ```
-$ PYTHONPATH=src python3 -m minerva.cli ledger verify --root data/out/cases
+$ PYTHONPATH=src python3 -m soma.cli ledger verify --root data/out/cases
 {
   "entries": 4,
   "intact": true,
@@ -3681,7 +3672,7 @@ documental entre órgãos aparecessem lado a lado — onde um fiscal, um promoto
 jornalista possa clicar num sítio e ver não apenas onde ele fica, mas quais registros já o
 conhecem, sob qual número, e se concordam entre si.
 
-O `minerva-map.html` é um protótipo funcional dessa superfície, construído sobre os mesmos
+O `map.html` é um protótipo funcional dessa superfície, construído sobre os mesmos
 quatro sítios de demonstração usados ao longo deste documento. Ele é entregue como um arquivo
 separado, e não incorporado a este relatório, por uma razão técnica específica: um mapa ao
 vivo precisa buscar blocos de mapa (tiles) de um servidor pela rede, e a página em sandbox na

@@ -1,5 +1,5 @@
 """
-MINERVA — Mineral Extraction Verification & Regulatory Accountability.
+Observatório SOMA — public oversight of mining from public data.
 
 An open mirror of the mining operator's software stack, built for the public
 sector out of public data.

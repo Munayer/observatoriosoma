@@ -347,7 +347,7 @@ class SyntheticProvider(SceneProvider):
                 SourceRef(
                     kind="granule",
                     identifier=f"SYNTH_{site_id}_{when.isoformat()}",
-                    source="minerva.providers.synthetic",
+                    source="soma.providers.synthetic",
                     retrieved_utc=now,
                     licence="simulation — not evidence",
                     note="deterministic simulation, seed "
