@@ -233,8 +233,8 @@
     if (!name) return l === "pt" ? "não informado" : "not recorded";
     var f = name.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
     if (f === "DADO NAO CADASTRADO") return l === "pt" ? "não cadastrado" : "not recorded";
-    var R = RESUMO.titular_regras;
-    if (new RegExp(R.ocultar).test(f) || !new RegExp(R.empresa).test(f))
+    var R = RESUMO.titular_regras;   // no rules (an old cached resumo.json): hide every name
+    if (!R || new RegExp(R.ocultar).test(f) || !new RegExp(R.empresa).test(f))
       return '<span style="color:var(--soma-text-2)">' + (l === "pt" ? "pessoa física (nome não exibido)" : "natural person (name not shown)") + "</span>";
     return esc(name);
   }
@@ -358,9 +358,9 @@
   document.addEventListener("soma:lang", function () { legend(); showMuni(); apiReport(); });
 
   Promise.all([
-    fetch("data/mg/resumo.json").then(function (r) { return r.json(); }),
-    fetch("data/mg/municipios.json").then(function (r) { return r.json(); }),
-    fetch("data/mg/municipios-mg.geojson").then(function (r) { return r.json(); })
+    fetch("data/mg/resumo.json?v=20261027d").then(function (r) { return r.json(); }),
+    fetch("data/mg/municipios.json?v=20261027d").then(function (r) { return r.json(); }),
+    fetch("data/mg/municipios-mg.geojson?v=20261027d").then(function (r) { return r.json(); })
   ]).then(function (all) {
     RESUMO = all[0]; MUNI = all[1]; MESH = all[2];
     current = fromHash();
