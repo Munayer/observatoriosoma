@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observatório SOMA — public mining oversight (simulated data)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/soma.css">
 <script src="assets/soma.js"></script>
 <style>
@@ -24,11 +25,18 @@
     --series-1:#3987e5; --series-2:#d95926; --series-3:#199e70;
     --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35);
   }
+  /* Observatório SOMA identity (EU funding guidelines palette) */
+  html[data-theme="light"]{--page:#f1f2f2;--surface-1:#ffffff;--text-primary:#383837;
+    --text-secondary:#545453;--series-1:#1765b1;--heading:#0d3d92}
+  html[data-theme="dark"]{--page:#10151c;--surface-1:#161c25;--heading:#b7cdf0}
   *{box-sizing:border-box}
   body{
     margin:0; background:var(--page); color:var(--text-primary);
-    font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
+    font:15px/1.55 "Noto Sans",Arial,"Helvetica Neue",sans-serif;
   }
+  h1,.card h2{color:var(--heading)}
+  h1{font-weight:600}
+  .card h2{font-weight:600}
   .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
   header.top{display:flex;gap:18px;align-items:flex-start;justify-content:space-between;
     flex-wrap:wrap;margin-bottom:6px}

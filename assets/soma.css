@@ -1,114 +1,178 @@
-/* Observatório SOMA — shared navigation bar and page transitions.
-   Loaded by index.html, report.html, dashboard.html and map.html. Pages that are
-   opened on their own (from a USB stick, say) still work without it. */
+/* Observatório SOMA — shared identity: navigation bar, EU funding footer and page
+   transitions. Loaded by every page. The visual language follows the European
+   Commission's operational guidelines for recipients of EU funding (2021-2027):
+   Noto Sans, deep blue headings, a blue cover band and mint labels and rules.
+   Pages opened on their own (from a USB stick, say) still work without it. */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
 
 :root {
-  --soma-bar-h: 48px;
-  --soma-bar-bg: rgba(246, 246, 243, .86);
-  --soma-bar-ink: #181b1f;
-  --soma-bar-muted: #5c6169;
-  --soma-bar-line: #dfe0dc;
-  --soma-bar-accent: #1f5fa6;
-  --soma-bar-accent-soft: #e7eef7;
+  --soma-bar-h: 52px;
+
+  /* Palette taken from the guidelines document */
+  --soma-eu-blue: #003399;      /* EU corporate blue (emblem) */
+  --soma-eu-yellow: #ffcc00;    /* EU yellow (emblem stars) */
+  --soma-navy: #0d3d92;         /* headings and running header */
+  --soma-band: #1765b1;         /* cover band */
+  --soma-band-deep: #074da1;
+  --soma-mint: #aedbc2;         /* labels and rules */
+  --soma-mint-soft: #e3f2ea;
+  --soma-grey: #f1f2f2;         /* section background */
+  --soma-text: #383837;
+  --soma-text-2: #545453;
+  --soma-link: #1d589b;
+
+  --soma-paper: #ffffff;
+  --soma-line: #dcdedf;
+  --soma-heading: var(--soma-navy);
+  --soma-accent: var(--soma-navy);
+  --soma-accent-soft: #e6edf7;
+  --soma-font: "Noto Sans", Arial, "Helvetica Neue", sans-serif;
+  --soma-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --soma-bar-bg: rgba(20, 23, 27, .86);
-    --soma-bar-ink: #eceef0;
-    --soma-bar-muted: #a3a8ae;
-    --soma-bar-line: #2b3036;
-    --soma-bar-accent: #7fb0e8;
-    --soma-bar-accent-soft: #1d2a3a;
+    --soma-paper: #10151c;
+    --soma-grey: #161c25;
+    --soma-line: #2a323d;
+    --soma-text: #e3e6ea;
+    --soma-text-2: #b3b9c1;
+    --soma-heading: #b7cdf0;
+    --soma-accent: #9dbcf0;
+    --soma-accent-soft: #1b2738;
+    --soma-link: #9dbcf0;
+    --soma-mint-soft: #18302a;
   }
 }
 :root[data-theme="dark"] {
-  --soma-bar-bg: rgba(20, 23, 27, .86);
-  --soma-bar-ink: #eceef0;
-  --soma-bar-muted: #a3a8ae;
-  --soma-bar-line: #2b3036;
-  --soma-bar-accent: #7fb0e8;
-  --soma-bar-accent-soft: #1d2a3a;
+  --soma-paper: #10151c;
+  --soma-grey: #161c25;
+  --soma-line: #2a323d;
+  --soma-text: #e3e6ea;
+  --soma-text-2: #b3b9c1;
+  --soma-heading: #b7cdf0;
+  --soma-accent: #9dbcf0;
+  --soma-accent-soft: #1b2738;
+  --soma-link: #9dbcf0;
+  --soma-mint-soft: #18302a;
 }
 
 html { scroll-padding-top: calc(var(--soma-bar-h) + 12px); }
 
+/* ---------- navigation bar: the blue band of the guidelines' cover ---------- */
 .soma-bar {
   position: sticky; top: 0; z-index: 1000;
   height: var(--soma-bar-h);
   display: flex; align-items: center; gap: 4px;
-  padding: 0 16px;
-  background: var(--soma-bar-bg);
-  -webkit-backdrop-filter: saturate(1.4) blur(10px);
-  backdrop-filter: saturate(1.4) blur(10px);
-  border-bottom: 1px solid var(--soma-bar-line);
-  color: var(--soma-bar-ink);
-  font: 500 14px/1 "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding: 0 20px;
+  background: var(--soma-navy);
+  color: #ffffff;
+  font: 500 14px/1 var(--soma-font);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .08);
   view-transition-name: soma-bar;
 }
 .soma-bar a { color: inherit; text-decoration: none; }
 .soma-bar .soma-brand {
-  font: 600 17px/1 "Newsreader", Georgia, serif;
-  margin-right: 12px; white-space: nowrap;
+  font: 700 16px/1 var(--soma-font);
+  margin-right: 14px; white-space: nowrap; letter-spacing: .005em;
 }
-.soma-bar .soma-brand b { color: var(--soma-bar-accent); font-weight: 700; }
+.soma-bar .soma-brand b { color: var(--soma-mint); font-weight: 700; }
 .soma-bar nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
 .soma-bar nav::-webkit-scrollbar { display: none; }
 .soma-bar nav a {
-  position: relative; padding: 8px 10px; border-radius: 6px;
-  color: var(--soma-bar-muted); white-space: nowrap;
+  position: relative; padding: 9px 10px; border-radius: 4px;
+  color: rgba(255, 255, 255, .78); white-space: nowrap;
   transition: color .15s, background-color .15s;
 }
-.soma-bar nav a:hover { color: var(--soma-bar-ink); background: var(--soma-bar-accent-soft); }
-.soma-bar nav a[aria-current="page"] { color: var(--soma-bar-ink); }
+.soma-bar nav a:hover { color: #ffffff; background: rgba(255, 255, 255, .1); }
+.soma-bar nav a[aria-current="page"] { color: #ffffff; }
 .soma-bar nav a[aria-current="page"]::after {
-  content: ""; position: absolute; left: 10px; right: 10px; bottom: 2px; height: 2px;
-  border-radius: 2px; background: var(--soma-bar-accent);
+  content: ""; position: absolute; left: 10px; right: 10px; bottom: 1px; height: 3px;
+  background: var(--soma-mint);
   view-transition-name: soma-tab;
 }
-.soma-bar a:focus-visible { outline: 2px solid var(--soma-bar-accent); outline-offset: 1px; }
-
+.soma-bar a:focus-visible, .soma-bar button:focus-visible {
+  outline: 2px solid var(--soma-mint); outline-offset: 1px;
+}
+.soma-tools { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .soma-site {
-  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 10px; border-radius: 999px;
-  border: 1px solid var(--soma-bar-line);
-  font: 500 12px/1 "IBM Plex Mono", ui-monospace, monospace;
-  color: var(--soma-bar-accent); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px; border-radius: 3px;
+  background: var(--soma-mint); color: var(--soma-navy);
+  font: 600 12px/1 var(--soma-mono); white-space: nowrap;
   view-transition-name: soma-site;
 }
 .soma-site[hidden] { display: none; }
-.soma-site::before {
-  content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor;
+.soma-lang {
+  display: inline-flex; border: 1px solid rgba(255, 255, 255, .35); border-radius: 3px; overflow: hidden;
 }
-@media (max-width: 560px) {
-  .soma-bar { padding: 0 8px; }
+.soma-lang button {
+  font: 600 11.5px/1 var(--soma-font); letter-spacing: .04em;
+  padding: 6px 8px; border: 0; background: transparent; color: rgba(255, 255, 255, .8); cursor: pointer;
+}
+.soma-lang button[aria-pressed="true"] { background: #ffffff; color: var(--soma-navy); }
+@media (max-width: 600px) {
+  .soma-bar { padding: 0 8px; gap: 2px; }
   .soma-bar .soma-brand { margin-right: 4px; }
   .soma-bar .soma-brand span { display: none; }
-  .soma-bar nav a { padding: 8px 7px; }
-  .soma-site { padding: 5px 8px; }
+  .soma-bar nav a { padding: 9px 6px; font-size: 13px; }
+  .soma-site { display: none; }
+  .soma-lang button { padding: 6px 6px; }
 }
 
-/* Links from one view to the same site in the others. */
+/* ---------- bilingual blocks (index, team, footer) ---------- */
+[data-lang][hidden] { display: none !important; }
+
+/* ---------- links from one view to the same site in the others ---------- */
 .soma-xlinks { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 4px; }
 .soma-xlinks a {
   display: inline-flex; align-items: center; gap: 5px;
-  padding: 5px 10px; border-radius: 999px;
-  border: 1px solid var(--soma-bar-line);
-  color: var(--soma-bar-accent); text-decoration: none;
-  font: 500 12.5px/1.2 "Public Sans", system-ui, sans-serif;
+  padding: 5px 10px; border-radius: 3px;
+  border: 1px solid var(--soma-line);
+  color: var(--soma-accent); text-decoration: none;
+  font: 500 12.5px/1.2 var(--soma-font);
   transition: background-color .15s, border-color .15s;
 }
-.soma-xlinks a:hover { background: var(--soma-bar-accent-soft); border-color: var(--soma-bar-accent); }
+.soma-xlinks a:hover { background: var(--soma-mint-soft); border-color: var(--soma-mint); }
 
-/* Brief highlight on whatever a cross-link landed on. */
 @keyframes soma-flash {
-  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--soma-bar-accent) 55%, transparent); }
-  100% { box-shadow: 0 0 0 14px transparent; }
+  0%   { box-shadow: 0 0 0 0 rgba(174, 219, 194, .9); }
+  100% { box-shadow: 0 0 0 14px rgba(174, 219, 194, 0); }
 }
-.soma-flash { animation: soma-flash 1.1s ease-out 1; border-radius: 8px; }
+.soma-flash { animation: soma-flash 1.1s ease-out 1; border-radius: 6px; }
 
-/* Page-to-page transitions (cross-document View Transitions). Browsers without
-   support simply navigate; the bar and the site chip stay put while the page
-   underneath cross-fades. */
+/* ---------- EU funding footer ----------
+   Emblem and funding statement are the official files, unmodified, kept clear of
+   the SOMA mark and shown at least 1 cm high (here 56 px). */
+.soma-foot {
+  background: var(--soma-paper); color: var(--soma-text-2);
+  border-top: 4px solid var(--soma-mint);
+  font: 400 13px/1.55 var(--soma-font);
+}
+.soma-foot-in {
+  max-width: 1180px; margin: 0 auto; padding: 28px 20px 32px;
+  display: grid; grid-template-columns: auto 1fr; gap: 20px 40px; align-items: center;
+}
+.soma-emblem { display: block; height: 56px; width: auto; padding: 8px 0; }
+.soma-emblem.neg { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .soma-emblem.pos { display: none; }
+  :root:not([data-theme="light"]) .soma-emblem.neg { display: block; }
+}
+:root[data-theme="dark"] .soma-emblem.pos { display: none; }
+:root[data-theme="dark"] .soma-emblem.neg { display: block; }
+.soma-foot p { margin: 0; max-width: 70ch; }
+.soma-foot-meta {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 22px;
+  padding-top: 16px; border-top: 1px solid var(--soma-line); font-size: 12.5px;
+}
+.soma-foot-meta a { color: var(--soma-link); }
+@media (max-width: 700px) {
+  .soma-foot-in { grid-template-columns: 1fr; gap: 14px; padding: 24px 16px 28px; }
+  .soma-emblem { height: 48px; }
+}
+
+/* ---------- page-to-page transitions (cross-document View Transitions) ---------- */
 @view-transition { navigation: auto; }
 ::view-transition-old(root) { animation: soma-out .18s ease-in both; }
 ::view-transition-new(root) { animation: soma-in .32s cubic-bezier(.2, .7, .2, 1) both; }
@@ -119,6 +183,6 @@ html { scroll-padding-top: calc(var(--soma-bar-h) + 12px); }
 
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
-  .soma-flash { animation: none; outline: 2px solid var(--soma-bar-accent); }
+  .soma-flash { animation: none; outline: 2px solid var(--soma-mint); }
   .soma-bar nav a, .soma-xlinks a { transition: none; }
 }

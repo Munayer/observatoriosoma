@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --paper: #f6f6f3;
@@ -40,11 +40,31 @@
   --accent-soft: #1c2733; --code-bg: #1e2328;
   --ok: #4fbf4f; --warn: #d9a441; --miss: #e07a7a;
 }
+
+/* Observatório SOMA identity: palette and type of the EU funding guidelines
+   (Noto Sans, deep blue #0d3d92 headings, mint #aedbc2 labels). */
+:root {
+  --paper: #ffffff; --paper-raised: #ffffff; --ink: #383837; --muted: #545453;
+  --faint: #7c7e80; --line: #dcdedf; --accent: #0d3d92; --accent-ink: #ffffff;
+  --accent-soft: #e6edf7; --code-bg: #f1f2f2;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #10151c; --paper-raised: #161c25; --ink: #e3e6ea; --muted: #b3b9c1;
+    --faint: #7f8791; --line: #2a323d; --accent: #9dbcf0; --accent-ink: #10151c;
+    --accent-soft: #1b2738; --code-bg: #1b222c;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #10151c; --paper-raised: #161c25; --ink: #e3e6ea; --muted: #b3b9c1;
+  --faint: #7f8791; --line: #2a323d; --accent: #9dbcf0; --accent-ink: #10151c;
+  --accent-soft: #1b2738; --code-bg: #1b222c;
+}
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 body {
   background: var(--paper); color: var(--ink);
-  font-family: "Public Sans", -apple-system, "Segoe UI", sans-serif;
+  font-family: "Noto Sans", Arial, "Helvetica Neue", sans-serif;
   font-size: 15.5px; line-height: 1.55;
 }
 .shell {
@@ -62,7 +82,7 @@ body {
   padding: 20px 18px;
   overflow-y: auto;
 }
-.mark { font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: 1.15rem; margin-bottom: 4px; }
+.mark { font-family: "Noto Sans", Arial, "Helvetica Neue", sans-serif; font-weight: 600; color: var(--accent); font-size: 1.15rem; margin-bottom: 4px; }
 .mark .glyph { color: var(--accent); }
 .tagline { color: var(--muted); font-size: 0.82rem; margin-bottom: 18px; line-height: 1.5; }
 .banner {
@@ -104,11 +124,11 @@ body {
   overflow-y: auto;
 }
 .detail h2 {
-  font-family: "Newsreader", Georgia, serif; font-size: 1.15rem; margin: 0 0 2px;
+  font-family: "Noto Sans", Arial, "Helvetica Neue", sans-serif; font-size: 1.15rem; margin: 0 0 2px;
 }
 .detail .sub { color: var(--muted); font-size: 0.8rem; margin-bottom: 16px; }
 .detail h3 {
-  font-family: "Public Sans", sans-serif; font-size: 0.72rem; font-weight: 700;
+  font-family: "Noto Sans", Arial, "Helvetica Neue", sans-serif; font-size: 0.72rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);
   margin: 20px 0 8px; padding-top: 14px; border-top: 1px solid var(--line);
 }
@@ -121,7 +141,7 @@ body {
 .agency:last-child { border-bottom: none; }
 .agency .who { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; }
 .agency .ref { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; text-align: right; max-width: 190px; }
-.agency .ref.miss { color: var(--miss); font-style: italic; font-family: "Public Sans", sans-serif; }
+.agency .ref.miss { color: var(--miss); font-style: italic; font-family: "Noto Sans", Arial, "Helvetica Neue", sans-serif; }
 .thread {
   display: flex; flex-direction: column; gap: 0; font-size: 0.8rem;
 }
@@ -140,7 +160,7 @@ button.xport:hover { border-color: var(--accent); color: var(--accent); }
 code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 3px; }
 .empty { color: var(--faint); font-size: 0.85rem; padding: 40px 4px; text-align: center; }
 .leaflet-popup-content-wrapper { background: var(--paper-raised); color: var(--ink); }
-.leaflet-popup-content { font-family: "Public Sans", sans-serif; font-size: 0.85rem; }
+.leaflet-popup-content { font-family: "Noto Sans", Arial, "Helvetica Neue", sans-serif; font-size: 0.85rem; }
 </style>
 </head>
 <body>

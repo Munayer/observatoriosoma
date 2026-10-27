@@ -834,7 +834,7 @@ much easier path than one that arrives as an outside critique.
 
 ## 3 Technical Architecture
 
-**Mineral Extraction Verification & Regulatory Accountability.** An open mirror of the mining operator's software stack, for the public sector. Version 0.1.0 · companion specification to §2.
+**Observatório SOMA.** An open mirror of the mining operator's software stack, for the public sector. Version 0.1.0 · companion specification to §2.
 
 ### 3.1 Design contract
 
@@ -2731,7 +2731,7 @@ sobre si mesma tem um caminho muito mais fácil do que um que chega como crític
 
 ## 3 Arquitetura Técnica
 
-**Verificação de Extração Mineral e Responsabilização Regulatória.** Um espelho aberto da pilha de software do operador de mineração, para o setor público. Versão 0.1.0 · especificação companheira do §2.
+**Observatório SOMA.** Um espelho aberto da pilha de software do operador de mineração, para o setor público. Versão 0.1.0 · especificação companheira do §2.
 
 ### 3.1 Design contract
 

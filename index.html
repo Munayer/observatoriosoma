@@ -4,129 +4,220 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observatório SOMA</title>
+<meta name="description" content="Observatório SOMA — public oversight of mining from public data. Open source, co-funded by the European Union under the Jean Monnet Actions.">
 <link rel="stylesheet" href="assets/soma.css">
 <script src="assets/soma.js"></script>
-<meta name="description" content="Mineral Extraction Verification & Regulatory Accountability — open, evidence-grade public oversight of mining from public data.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#f6f6f3; --paper-raised:#ffffff; --ink:#181b1f; --muted:#5c6169; --faint:#8a8f96;
-    --line:#dfe0dc; --accent:#1f5fa6; --accent-soft:#e7eef7;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --paper:#14171b; --paper-raised:#1a1e23; --ink:#eceef0; --muted:#a3a8ae; --faint:#7a7f86;
-      --line:#2b3036; --accent:#7fb0e8; --accent-soft:#1d2a3a;
-    }
-  }
-  :root[data-theme="dark"]{
-    --paper:#14171b; --paper-raised:#1a1e23; --ink:#eceef0; --muted:#a3a8ae; --faint:#7a7f86;
-    --line:#2b3036; --accent:#7fb0e8; --accent-soft:#1d2a3a;
-  }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);
-    font:16px/1.6 "Public Sans",system-ui,sans-serif}
-  .wrap{max-width:960px;margin:0 auto;padding:48px 16px 72px}
-  .eyebrow{font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.08em;
-    text-transform:uppercase;color:var(--muted)}
-  h1{font:700 clamp(40px,8vw,64px)/1.05 "Newsreader",Georgia,serif;margin:14px 0 8px;letter-spacing:-.01em}
-  .expansion{font:500 20px/1.35 "Newsreader",Georgia,serif;color:var(--muted);margin:0 0 20px}
-  .lede{max-width:640px;margin:0 0 40px}
-  .lede .pt{color:var(--muted);font-size:15px;margin-top:10px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-  a.card{display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid var(--line);
-    border-radius:10px;background:var(--paper-raised);color:inherit;text-decoration:none;
-    transition:border-color .15s,transform .15s}
-  a.card:hover,a.card:focus-visible{border-color:var(--accent);transform:translateY(-1px);outline:none}
-  .card h2{font:600 22px/1.2 "Newsreader",Georgia,serif;margin:0}
-  .card p{margin:0;color:var(--muted);font-size:15px}
-  .card .go{margin-top:auto;padding-top:8px;color:var(--accent);font-weight:600;font-size:14px}
-  .note{margin-top:40px;padding:14px 16px;border-radius:8px;background:var(--accent-soft);font-size:14px}
-  .more{margin-top:40px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px}
-  .more a{color:var(--accent)}
-  .sites{margin-top:48px}
-  .sites h2{font:600 24px/1.2 "Newsreader",Georgia,serif;margin:0 0 4px}
-  .sites>p{color:var(--muted);font-size:15px;margin:0 0 16px}
-  .sites ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-  .sites li{padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--paper-raised)}
-  .sites .sid{font:500 14px/1 "IBM Plex Mono",ui-monospace,monospace;color:var(--accent);text-decoration:none}
-  .sites .uf{margin-left:8px;font-size:12px;color:var(--faint)}
-  .sites li p{margin:8px 0 10px;font-size:14px;color:var(--muted)}
-  .sites .sx{font-size:13px;color:var(--faint)}
-  .sites .sx a{color:var(--accent)}
-  footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);
-    font:400 12px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+  body{margin:0;background:var(--soma-paper);color:var(--soma-text);
+    font:400 16px/1.65 var(--soma-font)}
+  a{color:var(--soma-link)}
+  .in{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* Cover: the blue band, a mint title, the mint subtitle strip */
+  .cover{background:var(--soma-band);color:#fff;padding:64px 0 0}
+  .cover .eyebrow{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.8);margin:0}
+  .cover h1{font:700 clamp(36px,6.5vw,58px)/1.1 var(--soma-font);color:var(--soma-mint);margin:14px 0 26px;letter-spacing:-.005em}
+  .cover .strip{display:inline-block;background:var(--soma-mint);color:var(--soma-navy);
+    font-size:clamp(15px,2.2vw,18px);padding:10px 18px;margin:0 0 -22px;position:relative}
+  .lede{padding:56px 20px 8px}
+  .rule{display:block;width:72px;height:4px;background:var(--soma-mint);margin:0 0 18px}
+  .lede p{max-width:640px;margin:0 0 12px;color:var(--soma-text-2)}
+  .lede p.big{font-size:19px;line-height:1.55;color:var(--soma-text)}
+
+  /* Sections: the guidelines' numbered mint label and blue headings */
+  section{padding:56px 0}
+  section.grey{background:var(--soma-grey)}
+  .label{display:inline-block;background:var(--soma-mint);color:var(--soma-navy);
+    font:400 clamp(22px,3.4vw,28px)/1.2 var(--soma-font);padding:8px 16px;margin:0 0 22px}
+  h3{font:400 20px/1.3 var(--soma-font);color:var(--soma-heading);margin:28px 0 8px}
+  section p{max-width:720px;color:var(--soma-text-2);margin:0 0 12px}
+
+  .aims{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+  .aims li{background:var(--soma-paper);border-top:4px solid var(--soma-mint);padding:18px 18px 16px}
+  .aims b{display:block;color:var(--soma-heading);font-weight:600;margin-bottom:6px}
+  .aims span{color:var(--soma-text-2);font-size:15px}
+
+  .principles{margin:18px 0 0;padding:0;list-style:none;border-top:1px solid var(--soma-line)}
+  .principles li{display:grid;grid-template-columns:180px 1fr;gap:6px 24px;padding:14px 0;border-bottom:1px solid var(--soma-line)}
+  .principles b{color:var(--soma-heading);font-weight:600}
+  .principles span{color:var(--soma-text-2);font-size:15px}
+  @media(max-width:640px){.principles li{grid-template-columns:1fr}}
+  .fine{font-size:13.5px;color:var(--soma-text-2);margin-top:18px}
+
+  .views{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:6px}
+  a.view{display:flex;flex-direction:column;gap:8px;padding:22px;background:var(--soma-paper);
+    border:1px solid var(--soma-line);color:inherit;text-decoration:none;transition:border-color .15s,transform .15s}
+  a.view:hover,a.view:focus-visible{border-color:var(--soma-navy);transform:translateY(-2px);outline:none}
+  .view h3{margin:0}
+  .view p{margin:0;font-size:15px}
+  .view .go{margin-top:auto;padding-top:8px;color:var(--soma-link);font-weight:600;font-size:14px}
+
+  .sites{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .sites li{padding:18px;background:var(--soma-paper);border:1px solid var(--soma-line)}
+  .sites .sid{font:600 14px/1 var(--soma-mono);color:var(--soma-heading);text-decoration:none}
+  .sites .uf{margin-left:8px;font-size:12px;color:var(--soma-text-2)}
+  .sites li p{margin:8px 0 10px;font-size:14.5px}
+  .sites .sx{font-size:13px}
+  .note{margin-top:22px;padding:12px 16px;background:var(--soma-mint-soft);border-left:4px solid var(--soma-mint);font-size:14px;color:var(--soma-text)}
+
+  @media (prefers-reduced-motion: reduce){a.view{transition:none}}
 </style>
 </head>
 <body>
-<main class="wrap">
-  <div class="eyebrow">Prototype · v0.1.1 · Open source</div>
-  <h1>Observatório SOMA</h1>
-  <p class="expansion">Public oversight of mining, from public data</p>
-  <div class="lede">
-    <p>An open mirror of the mining operator's software stack, built for the public sector out of
-    public data. Every number it shows can be re-derived by a third party from public inputs.</p>
-    <p class="pt">Supervisão pública da mineração, com dados públicos e evidência verificável.
-    Relatório disponível em português e inglês.</p>
-  </div>
 
-  <div class="grid">
-    <a class="card" href="report.html">
-      <h2>Report</h2>
-      <p>The full document: summary, report, architecture, demonstration and sourced evidence base. EN / PT.</p>
-      <span class="go">Read the report →</span>
-    </a>
-    <a class="card" href="dashboard.html">
-      <h2>Dashboard</h2>
-      <p>The operational view: four demonstration sites as a case queue.</p>
-      <span class="go">Open the dashboard →</span>
-    </a>
-    <a class="card" href="map.html">
-      <h2>Map</h2>
-      <p>GIS prototype: the sites with their cross-agency reference chains (ANM, IBAMA, ICMBio, FUNAI, INCRA, ANA).</p>
-      <span class="go">Open the map →</span>
-    </a>
+<div class="cover">
+  <div class="in">
+    <p class="eyebrow"><span data-lang="en">Prototype · v0.1.1 · Open source</span><span data-lang="pt" hidden>Protótipo · v0.1.1 · Código aberto</span></p>
+    <h1>Observatório SOMA</h1>
+    <div class="strip"><span data-lang="en">Public oversight of mining, from public data</span><span data-lang="pt" hidden>Supervisão pública da mineração, a partir de dados públicos</span></div>
   </div>
+</div>
 
-  <section class="sites">
-    <h2>The four demonstration sites</h2>
-    <p>Each site carries the same id in every view. Follow one from its case to the map and the report.</p>
-    <ul>
-    <li>
-      <a class="sid" href="dashboard.html#site=BR-PA-0001">BR-PA-0001</a><span class="uf">PA · critical</span>
-      <p>Expansion accelerates and crosses into a conservation unit.</p>
-      <span class="sx"><a href="dashboard.html#site=BR-PA-0001">Case</a> · <a href="map.html#site=BR-PA-0001">Map</a> · <a href="report.html#site=BR-PA-0001">Report</a></span>
-    </li>
-    <li>
-      <a class="sid" href="dashboard.html#site=BR-MT-0002">BR-MT-0002</a><span class="uf">MT · critical</span>
-      <p>Sustained extraction on a pending application only.</p>
-      <span class="sx"><a href="dashboard.html#site=BR-MT-0002">Case</a> · <a href="map.html#site=BR-MT-0002">Map</a> · <a href="report.html#site=BR-MT-0002">Report</a></span>
-    </li>
-    <li>
-      <a class="sid" href="dashboard.html#site=BR-MG-0003">BR-MG-0003</a><span class="uf">MG · high</span>
-      <p>Suspended title, surface still growing; tailings creeping.</p>
-      <span class="sx"><a href="dashboard.html#site=BR-MG-0003">Case</a> · <a href="map.html#site=BR-MG-0003">Map</a> · <a href="report.html#site=BR-MG-0003">Report</a></span>
-    </li>
-    <li>
-      <a class="sid" href="dashboard.html#site=BR-GO-0004">BR-GO-0004</a><span class="uf">GO · low</span>
-      <p>Compliant: screened, examined, cleared and closed.</p>
-      <span class="sx"><a href="dashboard.html#site=BR-GO-0004">Case</a> · <a href="map.html#site=BR-GO-0004">Map</a> · <a href="report.html#site=BR-GO-0004">Report</a></span>
-    </li>
+<div class="in lede">
+  <span class="rule"></span>
+  <div data-lang="en">
+    <p class="big">An open mirror of the mining operator's software stack, built for the public sector
+    out of public data.</p>
+    <p>Satellite imagery is free, full and open; mining cadastres are open government data. What
+    public bodies lack is the layer that turns them into evidence they can act on. SOMA is that
+    layer, and every number it shows can be re-derived by a third party from public inputs.</p>
+  </div>
+  <div data-lang="pt" hidden>
+    <p class="big">Um espelho aberto do software das mineradoras, construído para o setor público
+    a partir de dados públicos.</p>
+    <p>As imagens de satélite são livres e abertas; os cadastros minerários são dados abertos de
+    governo. O que falta aos órgãos públicos é a camada que transforma esses dados em evidência
+    utilizável. O SOMA é essa camada, e todo número que ele exibe pode ser rederivado por um
+    terceiro a partir de insumos públicos.</p>
+  </div>
+</div>
+
+<section>
+  <div class="in">
+    <h2 class="label"><span data-lang="en">1. Purpose</span><span data-lang="pt" hidden>1. Intenções</span></h2>
+    <ul class="aims" data-lang="en">
+      <li><b>Evidence, not alerts</b><span>Every figure carries the manifest needed to reproduce it, chained in a tamper-evident ledger.</span></li>
+      <li><b>Public data only</b><span>Copernicus Sentinel imagery and open cadastral and environmental registries. No proprietary inputs.</span></li>
+      <li><b>Due process in code</b><span>Tolerances favour the title holder, no case advances without a named person, and nothing is published before the party is notified.</span></li>
+      <li><b>Runs anywhere</b><span>No mandatory geospatial stack: a municipal agency with one laptop can run it.</span></li>
     </ul>
-  </section>
+    <ul class="aims" data-lang="pt" hidden>
+      <li><b>Evidência, não alerta</b><span>Cada número traz o manifesto necessário para reproduzi-lo, encadeado num registro à prova de adulteração.</span></li>
+      <li><b>Só dados públicos</b><span>Imagens Copernicus Sentinel e registros cadastrais e ambientais abertos. Nenhum insumo proprietário.</span></li>
+      <li><b>Devido processo no código</b><span>As tolerâncias favorecem o titular, nenhum caso avança sem uma pessoa nomeada e nada é publicado antes da notificação da parte.</span></li>
+      <li><b>Roda em qualquer lugar</b><span>Sem dependências geoespaciais obrigatórias: uma secretaria municipal com um notebook consegue rodar.</span></li>
+    </ul>
+  </div>
+</section>
 
-  <p class="note">All demonstration sites, operators and registry numbers are simulated. No real company,
-  site or agency record is shown.</p>
+<section class="grey">
+  <div class="in">
+    <h2 class="label"><span data-lang="en">2. Open source, the European way</span><span data-lang="pt" hidden>2. Código aberto, à europeia</span></h2>
+    <div data-lang="en">
+      <p>SOMA is built to the principles of the European Commission's Open Source Software Strategy
+      2020–2023, <em>Think Open</em>: public money, public code, and software that public administrations
+      can inspect, reuse and control.</p>
+      <ul class="principles">
+        <li><b>Think open</b><span>Open by default: code under Apache-2.0, with EUPL-1.2 available where a European public body prefers it.</span></li>
+        <li><b>Transform</b><span>Built for administrations' own processes — case queues, notices, dossiers — not for a vendor's product line.</span></li>
+        <li><b>Share</b><span>The whole stack, documentation and reference catalogues are public, in English and Portuguese.</span></li>
+        <li><b>Contribute</b><span>Built on open components (Copernicus, STAC, the scientific Python stack) and intended for the Digital Public Goods registry.</span></li>
+        <li><b>Secure</b><span>Hash-chained evidence ledger; every manifest can be verified independently.</span></li>
+        <li><b>Stay in control</b><span>No lock-in: standard formats (GeoJSON, CSV, JSON), runs offline, hosted on European open-source infrastructure (Codeberg).</span></li>
+      </ul>
+    </div>
+    <div data-lang="pt" hidden>
+      <p>O SOMA segue os princípios da Estratégia de Software de Código Aberto da Comissão Europeia
+      2020–2023, <em>Think Open</em>: dinheiro público, código público, e software que as
+      administrações públicas podem inspecionar, reutilizar e controlar.</p>
+      <ul class="principles">
+        <li><b>Pensar aberto</b><span>Aberto por padrão: código sob Apache-2.0, com EUPL-1.2 disponível quando um órgão público europeu preferir.</span></li>
+        <li><b>Transformar</b><span>Feito para os processos das próprias administrações — fila de casos, notificações, dossiês — e não para a linha de produtos de um fornecedor.</span></li>
+        <li><b>Compartilhar</b><span>Todo o código, a documentação e os catálogos de referência são públicos, em português e inglês.</span></li>
+        <li><b>Contribuir</b><span>Construído sobre componentes abertos (Copernicus, STAC, o ecossistema científico em Python) e pensado para o registro de Bens Públicos Digitais.</span></li>
+        <li><b>Segurança</b><span>Registro de evidências encadeado por hashes; cada manifesto pode ser verificado de forma independente.</span></li>
+        <li><b>Manter o controle</b><span>Sem dependência de fornecedor: formatos abertos (GeoJSON, CSV, JSON), funciona sem internet e é hospedado em infraestrutura europeia de código aberto (Codeberg).</span></li>
+      </ul>
+    </div>
+    <p class="fine" data-lang="en">The strategy is an internal policy of the European Commission; SOMA follows its principles and is not part of it or endorsed by it.</p>
+    <p class="fine" data-lang="pt" hidden>A estratégia é uma política interna da Comissão Europeia; o SOMA segue os seus princípios, sem fazer parte dela nem ter o seu aval.</p>
+  </div>
+</section>
 
-  <nav class="more">
-    <a href="docs/00-SOMA.md">Source document (Markdown)</a>
-    <a href="docs/03-catalogues.xlsx">Reference workbook (.xlsx)</a>
-    <a href="LICENCE-NOTE.md">Licensing note</a>
-    <a href="LICENSE">Apache-2.0 licence</a>
-  </nav>
+<section>
+  <div class="in">
+    <h2 class="label"><span data-lang="en">3. Views</span><span data-lang="pt" hidden>3. Vistas</span></h2>
+    <div class="views">
+      <a class="view" href="report.html">
+        <h3><span data-lang="en">Report</span><span data-lang="pt" hidden>Relatório</span></h3>
+        <p data-lang="en">The full document: summary, report, architecture, demonstration and sourced evidence base. EN / PT.</p>
+        <p data-lang="pt" hidden>O documento completo: sumário, relatório, arquitetura, demonstração e base de evidências. PT / EN.</p>
+        <span class="go"><span data-lang="en">Read the report →</span><span data-lang="pt" hidden>Ler o relatório →</span></span>
+      </a>
+      <a class="view" href="dashboard.html">
+        <h3><span data-lang="en">Dashboard</span><span data-lang="pt" hidden>Painel</span></h3>
+        <p data-lang="en">The operational view: four demonstration sites as a case queue.</p>
+        <p data-lang="pt" hidden>A vista operacional: os quatro sites de demonstração como fila de casos.</p>
+        <span class="go"><span data-lang="en">Open the dashboard →</span><span data-lang="pt" hidden>Abrir o painel →</span></span>
+      </a>
+      <a class="view" href="map.html">
+        <h3><span data-lang="en">Map</span><span data-lang="pt" hidden>Mapa</span></h3>
+        <p data-lang="en">GIS prototype: the sites with their cross-agency reference chains (ANM, IBAMA, ICMBio, FUNAI, INCRA, ANA).</p>
+        <p data-lang="pt" hidden>Protótipo de SIG: os sites com a cadeia de referências entre órgãos (ANM, IBAMA, ICMBio, FUNAI, INCRA, ANA).</p>
+        <span class="go"><span data-lang="en">Open the map →</span><span data-lang="pt" hidden>Abrir o mapa →</span></span>
+      </a>
+    </div>
+  </div>
+</section>
 
-  <footer>Observatório SOMA · Apache-2.0</footer>
-</main>
+<section class="grey">
+  <div class="in">
+    <h2 class="label"><span data-lang="en">4. The four demonstration sites</span><span data-lang="pt" hidden>4. Os quatro sites de demonstração</span></h2>
+    <p data-lang="en">Each site carries the same id in every view. Follow one from its case to the map and the report.</p>
+    <p data-lang="pt" hidden>Cada site tem o mesmo código em todas as vistas. Siga um deles do caso ao mapa e ao relatório.</p>
+    <ul class="sites">
+      <li>
+        <a class="sid" href="dashboard.html#site=BR-PA-0001">BR-PA-0001</a><span class="uf">PA · critical</span>
+        <p data-lang="en">Expansion accelerates and crosses into a conservation unit.</p>
+        <p data-lang="pt" hidden>A expansão acelera e entra numa unidade de conservação.</p>
+        <span class="sx"><a href="dashboard.html#site=BR-PA-0001"><span data-lang="en">Case</span><span data-lang="pt" hidden>Caso</span></a> · <a href="map.html#site=BR-PA-0001"><span data-lang="en">Map</span><span data-lang="pt" hidden>Mapa</span></a> · <a href="report.html#site=BR-PA-0001"><span data-lang="en">Report</span><span data-lang="pt" hidden>Relatório</span></a></span>
+      </li>
+      <li>
+        <a class="sid" href="dashboard.html#site=BR-MT-0002">BR-MT-0002</a><span class="uf">MT · critical</span>
+        <p data-lang="en">Sustained extraction on a pending application only.</p>
+        <p data-lang="pt" hidden>Extração contínua com apenas um requerimento pendente.</p>
+        <span class="sx"><a href="dashboard.html#site=BR-MT-0002"><span data-lang="en">Case</span><span data-lang="pt" hidden>Caso</span></a> · <a href="map.html#site=BR-MT-0002"><span data-lang="en">Map</span><span data-lang="pt" hidden>Mapa</span></a> · <a href="report.html#site=BR-MT-0002"><span data-lang="en">Report</span><span data-lang="pt" hidden>Relatório</span></a></span>
+      </li>
+      <li>
+        <a class="sid" href="dashboard.html#site=BR-MG-0003">BR-MG-0003</a><span class="uf">MG · high</span>
+        <p data-lang="en">Suspended title, surface still growing; tailings creeping.</p>
+        <p data-lang="pt" hidden>Título suspenso, área ainda crescendo; barragem de rejeitos com deslocamento lento.</p>
+        <span class="sx"><a href="dashboard.html#site=BR-MG-0003"><span data-lang="en">Case</span><span data-lang="pt" hidden>Caso</span></a> · <a href="map.html#site=BR-MG-0003"><span data-lang="en">Map</span><span data-lang="pt" hidden>Mapa</span></a> · <a href="report.html#site=BR-MG-0003"><span data-lang="en">Report</span><span data-lang="pt" hidden>Relatório</span></a></span>
+      </li>
+      <li>
+        <a class="sid" href="dashboard.html#site=BR-GO-0004">BR-GO-0004</a><span class="uf">GO · low</span>
+        <p data-lang="en">Compliant: screened, examined, cleared and closed.</p>
+        <p data-lang="pt" hidden>Regular: triado, examinado, liberado e arquivado.</p>
+        <span class="sx"><a href="dashboard.html#site=BR-GO-0004"><span data-lang="en">Case</span><span data-lang="pt" hidden>Caso</span></a> · <a href="map.html#site=BR-GO-0004"><span data-lang="en">Map</span><span data-lang="pt" hidden>Mapa</span></a> · <a href="report.html#site=BR-GO-0004"><span data-lang="en">Report</span><span data-lang="pt" hidden>Relatório</span></a></span>
+      </li>
+    </ul>
+    <p class="note" data-lang="en">All demonstration sites, operators and registry numbers are simulated. No real company, site or agency record is shown.</p>
+    <p class="note" data-lang="pt" hidden>Todos os sites, operadores e números de registro da demonstração são simulados. Nenhuma empresa, local ou registro oficial real é mostrado.</p>
+  </div>
+</section>
+
+<section>
+  <div class="in">
+    <h2 class="label"><span data-lang="en">5. Team and documents</span><span data-lang="pt" hidden>5. Equipe e documentos</span></h2>
+    <p><a href="team.html"><span data-lang="en">Meet the team →</span><span data-lang="pt" hidden>Conheça a equipe →</span></a></p>
+    <p>
+      <a href="docs/00-SOMA.md"><span data-lang="en">Source document (Markdown)</span><span data-lang="pt" hidden>Documento-fonte (Markdown)</span></a> ·
+      <a href="docs/03-catalogues.xlsx"><span data-lang="en">Reference workbook (.xlsx)</span><span data-lang="pt" hidden>Planilha de referência (.xlsx)</span></a> ·
+      <a href="LICENCE-NOTE.md"><span data-lang="en">Licensing note</span><span data-lang="pt" hidden>Nota de licenciamento</span></a>
+    </p>
+  </div>
+</section>
+
 </body>
 </html>
