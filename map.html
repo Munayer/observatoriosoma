@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observatório SOMA — GIS Prototype</title>
+<link rel="stylesheet" href="assets/soma.css">
+<script src="assets/soma.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,7 +50,7 @@ body {
 .shell {
   display: grid;
   grid-template-columns: 300px 1fr 340px;
-  height: 100vh;
+  height: calc(100vh - var(--soma-bar-h, 0px));
 }
 @media (max-width: 980px) {
   .shell { grid-template-columns: 1fr; grid-template-rows: auto 45vh auto; height: auto; }
@@ -358,6 +360,7 @@ function downloadText(filename, text, mime) {
 
 function selectSite(id) {
   activeId = id;
+  if (window.SOMA) { SOMA.setSite(id); }
   renderList();
   var site = SITES.filter(function (s) { return s.id === id; })[0];
   var el = document.getElementById("detailEl");
@@ -365,6 +368,7 @@ function selectSite(id) {
   el.innerHTML =
     "<h2>" + site.id + "</h2>" +
     '<div class="sub">' + site.holder + " · " + site.substance + "</div>" +
+    (window.SOMA ? SOMA.xlinks(site.id) : "") +
 
     "<h3>Coordinates</h3>" +
     '<div class="coord">' + site.lat.toFixed(5) + ", " + site.lon.toFixed(5) + " (WGS84)</div>" +
@@ -397,6 +401,18 @@ function threadStep(k, v) {
 }
 
 renderList();
+
+// Arriving from the dashboard or the report with #site=…: open that site.
+function openSite(id) {
+  var site = SITES.filter(function (s) { return s.id === id; })[0];
+  if (!site) { return; }
+  selectSite(id);
+  if (mapReady) { map.flyTo([site.lat, site.lon], 11, { duration: 0.9 }); }
+}
+if (window.SOMA) {
+  SOMA.onSite(openSite);
+  if (SOMA.site()) { openSite(SOMA.site()); }
+}
 </script>
 </body>
 </html>

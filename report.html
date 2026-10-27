@@ -1,4 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observatório SOMA</title>
+<link rel="stylesheet" href="assets/soma.css">
+<script src="assets/soma.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,500&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -70,10 +77,10 @@ body {
 
 .rail {
   position: sticky;
-  top: 0;
+  top: var(--soma-bar-h, 0px);
   align-self: start;
   padding: 48px 0 40px;
-  max-height: 100vh;
+  max-height: calc(100vh - var(--soma-bar-h, 0px));
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -274,7 +281,13 @@ tr:nth-child(even) td { background: color-mix(in srgb, var(--paper-raised) 60%, 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
+
+/* Long reference URLs and inline code wrap instead of widening the page on phones. */
+.doc p, .doc li { overflow-wrap: break-word; }
+.doc a, .doc :not(pre) > code { overflow-wrap: anywhere; }
 </style>
+</head>
+<body>
 
 <div class="shell">
   <aside class="rail" id="rail">
@@ -4718,6 +4731,8 @@ quanto o registro mais fraco dentro dela, e hoje esse não é o da ANM.</p>
       a.href = "#" + l + "-sec-" + a.getAttribute("data-num");
     });
     try { localStorage.setItem(LANG_KEY, l); } catch (e) {}
+    document.documentElement.lang = isEn ? "en" : "pt-BR";
+    if (window.SOMA) { window.SOMA.refresh(); }
     setupObserver();
   }
 
@@ -4755,5 +4770,36 @@ quanto o registro mais fraco dentro dela, e hoje esse não é o da ANM.</p>
   }
 
   applyLang(lang);
+
+  // Site deep links (assets/soma.js): each entry in "What each site is" (§4.2) gets an
+  // id and links to the same site on the map and in the dashboard; #site=… lands on it.
+  var NAV = window.SOMA;
+  if (NAV) {
+    ["en", "pt"].forEach(function (l) {
+      var doc = document.getElementById("doc-" + l);
+      Array.prototype.forEach.call(doc.querySelectorAll("li > strong:first-child"), function (st) {
+        var id = st.textContent.trim();
+        if (!/^BR-[A-Z]{2}-[0-9]{4}$/.test(id) || document.getElementById(l + "-site-" + id)) return;
+        var li = st.parentNode;
+        li.id = l + "-site-" + id;
+        li.insertAdjacentHTML("beforeend", NAV.xlinks(id, { lang: l }));
+      });
+    });
+    var goToSite = function (id, jump) {
+      var li = document.getElementById(lang + "-site-" + id);
+      if (!li) return;
+      li.scrollIntoView({ block: "center", behavior: jump ? "instant" : "smooth" });
+      NAV.flash(li);
+    };
+    NAV.onSite(goToSite);
+    // Wait for fonts and layout to settle, or the target moves after we scroll to it.
+    var landed = function () {
+      var go = function () { if (NAV.site()) { goToSite(NAV.site(), true); } };
+      if (document.fonts && document.fonts.ready) { document.fonts.ready.then(go); } else { go(); }
+    };
+    if (document.readyState === "complete") { landed(); } else { window.addEventListener("load", landed); }
+  }
 })();
 </script>
+</body>
+</html>

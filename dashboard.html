@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observatório SOMA — public mining oversight (simulated data)</title>
+<link rel="stylesheet" href="assets/soma.css">
+<script src="assets/soma.js"></script>
 <style>
   :root{
     color-scheme: light;
@@ -62,6 +64,7 @@
     font-weight:600}
   .card p.note{color:var(--text-secondary);font-size:13.5px;margin:2px 0 12px}
   table{border-collapse:collapse;width:100%;font-size:13.5px}
+  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
   th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--grid);
     vertical-align:top}
   th{color:var(--text-muted);font-weight:600;font-size:12.5px;
@@ -155,11 +158,11 @@
   <h2>Case queue</h2>
   <p class="note">Ranked by what is at stake, not by hectares. A structure whose crest
   is accelerating outranks everything else on the list.</p>
-  <table><thead><tr>
+  <div class="tscroll"><table><thead><tr>
     <th>Site</th><th>Title of record</th><th>Severity</th><th>State</th>
     <th class="num">Disturbed</th><th class="num">Outside title</th>
     <th class="num">Current rate</th>
-  </tr></thead><tbody id="queue"></tbody></table>
+  </tr></thead><tbody id="queue"></tbody></table></div>
 </div>
 
 <div id="detail"></div>
@@ -188,7 +191,9 @@ const fmt = (n,d=1)=> (n==null||isNaN(n)) ? '—' : Number(n).toLocaleString(und
   {minimumFractionDigits:d,maximumFractionDigits:d});
 const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const SEV_ORDER = {critical:0,high:1,medium:2,low:3};
-let selected = SITES[0].site_id;
+const NAV = window.SOMA || null;  // shared nav (assets/soma.js); absent when opened standalone
+const known = id => SITES.some(s=>s.site_id===id);
+let selected = NAV && known(NAV.site()) ? NAV.site() : SITES[0].site_id;
 
 document.getElementById('banner').innerHTML =
   '<strong>Simulated data.</strong> This dashboard is driven by a deterministic '+
@@ -259,7 +264,7 @@ function renderQueue(){
       <td class="num">${fmt(s.trend.current_rate_per_month,2)} ha/mo</td>
     </tr>`).join('') || '<tr><td colspan="7" class="muted">No sites match these filters.</td></tr>';
   document.querySelectorAll('tr.q').forEach(tr=>{
-    const pick=()=>{selected=tr.dataset.id;render();};
+    const pick=()=>{selected=tr.dataset.id;if(NAV)NAV.setSite(selected);render();};
     tr.addEventListener('click',pick);
     tr.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick();}});
   });
@@ -434,6 +439,7 @@ function renderDetail(){
     <h2>${esc(s.site_id)} — ${esc(s.case_id)}
       <span class="pill sev-${esc(s.severity)}"><span class="dot"></span>${esc(s.severity)}</span></h2>
     <p class="note">${esc(s.narrative)}</p>
+    ${NAV?NAV.xlinks(s.site_id):''}
     <div class="grid2">
       <figure>
         ${img.image_overlay?`<img src="${img.image_overlay}" alt="Attributed footprint over the latest composite">`:''}
@@ -528,7 +534,8 @@ function renderDetail(){
 function render(){renderTiles();renderQueue();renderDetail();}
 ['fsev','fstate','frange'].forEach(id=>
   document.getElementById(id).addEventListener('change',()=>{
-    if(!visible().some(s=>s.site_id===selected) && visible().length) selected=visible()[0].site_id;
+    if(!visible().some(s=>s.site_id===selected) && visible().length){
+      selected=visible()[0].site_id; if(NAV) NAV.setSite(selected);}
     render();}));
 document.getElementById('theme').addEventListener('click',()=>{
   const root=document.documentElement;
@@ -538,6 +545,16 @@ document.getElementById('theme').addEventListener('click',()=>{
   renderDetail();
 });
 render();
+if(NAV){
+  const reveal=(jump)=>{const c=document.querySelector('#detail .card');
+    if(c){c.scrollIntoView({behavior:jump||matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});NAV.flash(c);}};
+  NAV.onSite(id=>{if(known(id)){selected=id;render();reveal();}});
+  // Scroll once images and fonts have settled, so the card stays where we put it.
+  if(known(NAV.site())){
+    const land=()=>reveal(true);
+    if(document.readyState==='complete') land(); else window.addEventListener('load',land);
+  }
+}
 </script>
 </body>
 </html>

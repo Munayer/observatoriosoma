@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observatório SOMA</title>
+<link rel="stylesheet" href="assets/soma.css">
+<script src="assets/soma.js"></script>
 <meta name="description" content="Mineral Extraction Verification & Regulatory Accountability — open, evidence-grade public oversight of mining from public data.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -25,7 +27,7 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);
     font:16px/1.6 "Public Sans",system-ui,sans-serif}
-  .wrap{max-width:960px;margin:0 auto;padding:56px 16px 72px}
+  .wrap{max-width:960px;margin:0 auto;padding:48px 16px 72px}
   .eyebrow{font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.08em;
     text-transform:uppercase;color:var(--muted)}
   h1{font:700 clamp(40px,8vw,64px)/1.05 "Newsreader",Georgia,serif;margin:14px 0 8px;letter-spacing:-.01em}
@@ -43,6 +45,16 @@
   .note{margin-top:40px;padding:14px 16px;border-radius:8px;background:var(--accent-soft);font-size:14px}
   .more{margin-top:40px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px}
   .more a{color:var(--accent)}
+  .sites{margin-top:48px}
+  .sites h2{font:600 24px/1.2 "Newsreader",Georgia,serif;margin:0 0 4px}
+  .sites>p{color:var(--muted);font-size:15px;margin:0 0 16px}
+  .sites ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .sites li{padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--paper-raised)}
+  .sites .sid{font:500 14px/1 "IBM Plex Mono",ui-monospace,monospace;color:var(--accent);text-decoration:none}
+  .sites .uf{margin-left:8px;font-size:12px;color:var(--faint)}
+  .sites li p{margin:8px 0 10px;font-size:14px;color:var(--muted)}
+  .sites .sx{font-size:13px;color:var(--faint)}
+  .sites .sx a{color:var(--accent)}
   footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);
     font:400 12px/1.5 "IBM Plex Mono",ui-monospace,monospace}
 </style>
@@ -76,6 +88,33 @@
       <span class="go">Open the map →</span>
     </a>
   </div>
+
+  <section class="sites">
+    <h2>The four demonstration sites</h2>
+    <p>Each site carries the same id in every view. Follow one from its case to the map and the report.</p>
+    <ul>
+    <li>
+      <a class="sid" href="dashboard.html#site=BR-PA-0001">BR-PA-0001</a><span class="uf">PA · critical</span>
+      <p>Expansion accelerates and crosses into a conservation unit.</p>
+      <span class="sx"><a href="dashboard.html#site=BR-PA-0001">Case</a> · <a href="map.html#site=BR-PA-0001">Map</a> · <a href="report.html#site=BR-PA-0001">Report</a></span>
+    </li>
+    <li>
+      <a class="sid" href="dashboard.html#site=BR-MT-0002">BR-MT-0002</a><span class="uf">MT · critical</span>
+      <p>Sustained extraction on a pending application only.</p>
+      <span class="sx"><a href="dashboard.html#site=BR-MT-0002">Case</a> · <a href="map.html#site=BR-MT-0002">Map</a> · <a href="report.html#site=BR-MT-0002">Report</a></span>
+    </li>
+    <li>
+      <a class="sid" href="dashboard.html#site=BR-MG-0003">BR-MG-0003</a><span class="uf">MG · high</span>
+      <p>Suspended title, surface still growing; tailings creeping.</p>
+      <span class="sx"><a href="dashboard.html#site=BR-MG-0003">Case</a> · <a href="map.html#site=BR-MG-0003">Map</a> · <a href="report.html#site=BR-MG-0003">Report</a></span>
+    </li>
+    <li>
+      <a class="sid" href="dashboard.html#site=BR-GO-0004">BR-GO-0004</a><span class="uf">GO · low</span>
+      <p>Compliant: screened, examined, cleared and closed.</p>
+      <span class="sx"><a href="dashboard.html#site=BR-GO-0004">Case</a> · <a href="map.html#site=BR-GO-0004">Map</a> · <a href="report.html#site=BR-GO-0004">Report</a></span>
+    </li>
+    </ul>
+  </section>
 
   <p class="note">All demonstration sites, operators and registry numbers are simulated. No real company,
   site or agency record is shown.</p>
