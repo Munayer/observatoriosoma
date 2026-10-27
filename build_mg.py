@@ -11,9 +11,9 @@ strategic minerals) and the consolidated report, and writes:
     data/mg/processos-minerais-estrategicos-mg.csv
     mg.html                         the report as a page of the site
 
-Holder names (NOME) are left out of everything published: many holders are natural
-persons, and the site never names a party it has not notified. Each process links to
-its public record in the ANM Cadastro Mineiro instead.
+Holder names (NOME) are published for legal entities only. Natural persons' names are
+left out (see HOLDER_RULES): the site never names a person it has not notified. Every
+process also links to its public record in the ANM Cadastro Mineiro.
 
 Needs openpyxl and python-docx.
 """
@@ -65,6 +65,41 @@ GROUP_OF = {
     "DISPONIBILIDADE": "disponibilidade",
 }
 NAME_FIX = {"Passa-Vinte": "Passa Vinte", "São Thomé das Letras": "São Tomé das Letras"}
+
+# Holder names: shown for legal entities, hidden for natural persons. Patterns run on the
+# name folded to unaccented upper case; the same strings drive the map page (in JS).
+# A name is hidden when it carries a CPF, is an estate, or has no corporate marker. An
+# individual entrepreneur ("Fulano da Silva ME") carries a person's name, so ME/EPP/MEI
+# alone do not count as a corporate marker.
+HOLDER_RULES = {
+    "ocultar": r"CPF|\d{3}\.?\d{3}\.?\d{3}-?\d{2}|\d{11}|^ESPOLIO\b",
+    "empresa": (r"\b(LTDA|LIMITADA|EIRELI|EIRELLI|EIRELLE|SLU|CIA|COMPANHIA|MINERA\w*|MINERIOS?|"
+                r"MINERAIS|METAIS|METALS?|METALURG\w*|MINING|MINES|MINERALS|RESOURCES|RECURSOS|"
+                r"HOLDINGS?|PARTICIPA\w*|EMPREENDIMENTOS?|GEOLOGIA|GEOLOGICA|PESQUISAS|CONSTRU\w*|"
+                r"INDUSTRIA\w*|COMERCIO|SERVICOS|TERRAPLENAGEM|PAVIMENTA\w*|INVESTIMENTOS?|"
+                r"INCORPORA\w*|INC|CORP\w*|LIMITED|LTD|GMBH|PTY|EXPLORATION|VENTURES|CAPITAL|GROUP|"
+                r"GRUPO|NEGOCIOS|CONSULTORIA|ASSESSORIA|INTERMEDIA\w*|TRADING|REFRATARIOS|"
+                r"COOPERATIVA|ASSOCIA\w*|SOCIEDADE|PREFEITURA|MUNICIPIO|DEPARTAMENTO|INSTITUTO|"
+                r"FUNDACAO|UNIVERSIDADE|CONSORCIO|SECRETARIA)\b"
+                # S.A. in its spellings, but not the surname Sá ("Faria de Sá")
+                r"|S\.A\.?|S/A|(?<!DE )\bS ?A$|(?<!DE )\bSA [A-Z]+$"),
+}
+HOLDER_HIDE = re.compile(HOLDER_RULES["ocultar"])
+HOLDER_FIRM = re.compile(HOLDER_RULES["empresa"])
+
+
+def fold(s):
+    return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().upper().strip()
+
+
+def holder(name):
+    """(display name, kind) for a NOME value: kind is empresa, pessoa or nao-cadastrado."""
+    if not name or fold(name) == "DADO NAO CADASTRADO":
+        return "", "nao-cadastrado"
+    f = fold(name)
+    if HOLDER_HIDE.search(f) or not HOLDER_FIRM.search(f):
+        return "", "pessoa"
+    return name.strip(), "empresa"
 
 
 def fetch(url):
@@ -321,7 +356,7 @@ PAGE = """<!doctype html>
     </div>
 __BODY__
     <h2 class="label" id="s-dados"><span data-lang="pt">Dados e downloads</span><span data-lang="en" hidden>Data and downloads</span></h2>
-    <p><span data-lang="pt">Os números desta página vêm da extração do SIGMINE feita pelo Observatório em __EXTRACT__. Os nomes dos titulares não são republicados aqui: muitos são pessoas físicas. Cada processo pode ser consultado no Cadastro Mineiro da ANM pelo seu número.</span><span data-lang="en" hidden>The figures on this page come from the Observatory's SIGMINE extract of __EXTRACT__. Holder names are not republished here, since many are natural persons; every process can be looked up by number in ANM's Cadastro Mineiro.</span></p>
+    <p><span data-lang="pt">Os números desta página vêm da extração do SIGMINE feita pelo Observatório em __EXTRACT__. No CSV e no mapa aparecem os nomes dos titulares que são empresas ou órgãos públicos; os de pessoas físicas não são republicados. Cada processo pode ser consultado no Cadastro Mineiro da ANM pelo seu número.</span><span data-lang="en" hidden>The figures on this page come from the Observatory's SIGMINE extract of __EXTRACT__. The CSV and the map show holders that are companies or public bodies; natural persons' names are not republished. Every process can be looked up by number in ANM's Cadastro Mineiro.</span></p>
     <div class="downloads">
       <a href="data/mg/processos-minerais-estrategicos-mg.csv" download>Processos (.csv)</a>
       <a href="data/mg/resumo.json">Resumo (.json)</a>
@@ -435,6 +470,7 @@ def main():
         "relatorio": "17/10/2026",
         "api": "https://geo.anm.gov.br/arcgis/rest/services/SIGMINE/dados_anm/MapServer/0",
         "grupos": GROUPS,
+        "titular_regras": HOLDER_RULES,
         "total": {"n": total_n, "area_ha": round(total_area)},
         "minerais": [{
             "chave": key, "nome": label, "subs": subs,
@@ -453,9 +489,9 @@ def main():
             "MUNICIPIO_DOM", "MUNICIPIOS", "MINERAL_ALVO"]
     with open(OUT / "processos-minerais-estrategicos-mg.csv", "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(cols)
+        w.writerow(cols + ["TITULAR", "TITULAR_TIPO"])
         for p in procs:
-            w.writerow([p.get(c) if p.get(c) is not None else "" for c in cols])
+            w.writerow([p.get(c) if p.get(c) is not None else "" for c in cols] + list(holder(p.get("NOME"))))
 
     title, byline, body, toc = render_report(docx_blocks(report))
     byline = byline.replace("Oct 17, 2026", "17 out. 2026").replace("@Bernardo", "Bernardo Máximo Munayer")
@@ -477,6 +513,8 @@ def main():
     for m in resumo["minerais"]:
         print(f'{m["nome"]:13} {m["n"]:5} proc  {m["area_ha"]:>9} ha  grupos {m["grupos"]}  desde2020 {m["desde2020"]}')
     print("total", total_n, round(total_area), "| municipalities", len(muni), "| concessions", conc)
+    kinds = Counter(holder(p.get("NOME"))[1] for p in procs)
+    print("holders per process:", dict(kinds))
 
 
 if __name__ == "__main__":

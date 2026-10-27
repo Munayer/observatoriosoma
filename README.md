@@ -48,8 +48,8 @@ python build_mg.py anm_mg_municipios_2026-10-17.xlsx Minerais_estrategicos_MG_re
 ```
 
 This writes `mg.html` and `data/mg/` (summary, per-municipality counts, the IBGE mesh and a
-CSV of the processes). Holder names are not published; each process links to its record in
-ANM's Cadastro Mineiro. The workbook itself stays out of the repository.
+CSV of the processes). Holder names are published for companies and public bodies only,
+never for natural persons; each process links to its record in ANM's Cadastro Mineiro. The workbook itself stays out of the repository.
 
 ---
 

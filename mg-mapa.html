@@ -87,7 +87,7 @@
       <div class="state" id="api-state">…</div>
       <div id="api-body"></div>
     </div>
-    <p class="note"><span data-lang="pt">A extração do Observatório é de 16/10/2026; a API mostra a base ativa de agora. Processos que saíram da base ativa (arquivados, extintos) explicam diferenças negativas. Os nomes dos titulares não são exibidos; cada processo leva ao Cadastro Mineiro da ANM.</span><span data-lang="en" hidden>The Observatory's extract dates from 16/10/2026; the API shows today's active base. Processes that left it (archived, extinguished) explain negative differences. Holder names are not shown; each process links to ANM's Cadastro Mineiro.</span></p>
+    <p class="note"><span data-lang="pt">A extração do Observatório é de 16/10/2026; a API mostra a base ativa de agora. Processos que saíram da base ativa (arquivados, extintos) explicam diferenças negativas. Os titulares aparecem quando são empresas ou órgãos públicos; nomes de pessoas físicas não são exibidos. Cada processo leva ao Cadastro Mineiro da ANM.</span><span data-lang="en" hidden>The Observatory's extract dates from 16/10/2026; the API shows today's active base. Processes that left it (archived, extinguished) explain negative differences. Holders are shown when they are companies or public bodies; natural persons' names are not. Each process links to ANM's Cadastro Mineiro.</span></p>
   </aside>
   <div class="mapwrap">
     <div id="map" role="region" aria-label="Mapa"></div>
@@ -208,7 +208,7 @@
     var feats = [], t0 = performance.now();
     function page(offset) {
       var q = "where=" + encodeURIComponent(whereFor(key)) +
-        "&outFields=PROCESSO,NUMERO,ANO,FASE,SUBS,AREA_HA,ULT_EVENTO&returnGeometry=true&outSR=4326" +
+        "&outFields=PROCESSO,NUMERO,ANO,FASE,SUBS,AREA_HA,ULT_EVENTO,NOME&returnGeometry=true&outSR=4326" +
         "&geometryPrecision=5&maxAllowableOffset=0.0004&resultRecordCount=2000&resultOffset=" + offset +
         "&orderByFields=OBJECTID&f=geojson";
       return fetch(API + "/query?" + q).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
@@ -225,9 +225,24 @@
     });
   }
 
+  /* Holder: shown for companies and public bodies, hidden for natural persons, by the
+     same rules build_mg.py applies to the CSV (resumo.json, titular_regras). */
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); };
+  function holder(name) {
+    var l = L_();
+    if (!name) return l === "pt" ? "não informado" : "not recorded";
+    var f = name.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toUpperCase().trim();
+    if (f === "DADO NAO CADASTRADO") return l === "pt" ? "não cadastrado" : "not recorded";
+    var R = RESUMO.titular_regras;
+    if (new RegExp(R.ocultar).test(f) || !new RegExp(R.empresa).test(f))
+      return '<span style="color:var(--soma-text-2)">' + (l === "pt" ? "pessoa física (nome não exibido)" : "natural person (name not shown)") + "</span>";
+    return esc(name);
+  }
+
   function popup(p) {
     var l = L_(), num = p.NUMERO, ano = p.ANO;
-    return "<b>" + p.PROCESSO + "</b><br>" + p.SUBS + "<br>" + (l === "pt" ? "Fase: " : "Phase: ") + p.FASE +
+    return "<b>" + p.PROCESSO + "</b><br>" + p.SUBS + "<br>" + (l === "pt" ? "Titular: " : "Holder: ") + holder(p.NOME) +
+      "<br>" + (l === "pt" ? "Fase: " : "Phase: ") + p.FASE +
       "<br>" + (l === "pt" ? "Área: " : "Area: ") + fmt(p.AREA_HA) + " ha · " + (l === "pt" ? "protocolo " : "filed ") + ano +
       "<br><span style='color:var(--soma-text-2)'>" + (p.ULT_EVENTO || "") + "</span>" +
       '<br><a href="' + SCM + "?numero=" + num + "&ano=" + ano + '" target="_blank" rel="noopener">' +
