@@ -65,8 +65,8 @@ _TEMPLATE = r"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observatório SOMA — public mining oversight (simulated data)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/soma.css">
-<script src="assets/soma.js"></script>
+<link rel="stylesheet" href="assets/soma.css?v=20261027b">
+<script src="assets/soma.js?v=20261027b"></script>
 <style>
   :root{
     color-scheme: light;

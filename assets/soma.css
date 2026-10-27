@@ -2,7 +2,10 @@
    transitions. Loaded by every page. The visual language follows the European
    Commission's operational guidelines for recipients of EU funding (2021-2027):
    Noto Sans, deep blue headings, a blue cover band and mint labels and rules.
-   Pages opened on their own (from a USB stick, say) still work without it. */
+   Pages opened on their own (from a USB stick, say) still work without it.
+   Pages link it as assets/soma.css?v=…; bump that tag in every page (and in
+   build_report_html.py and src/soma/dashboard.py) when this file or soma.js
+   changes, since the host lets browsers reuse a cached copy for up to an hour. */
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap");
 
