@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MINERVA</title>
+<meta name="description" content="Mineral Extraction Verification & Regulatory Accountability — open, evidence-grade public oversight of mining from public data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f6f3; --paper-raised:#ffffff; --ink:#181b1f; --muted:#5c6169; --faint:#8a8f96;
+    --line:#dfe0dc; --accent:#1f5fa6; --accent-soft:#e7eef7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14171b; --paper-raised:#1a1e23; --ink:#eceef0; --muted:#a3a8ae; --faint:#7a7f86;
+      --line:#2b3036; --accent:#7fb0e8; --accent-soft:#1d2a3a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14171b; --paper-raised:#1a1e23; --ink:#eceef0; --muted:#a3a8ae; --faint:#7a7f86;
+    --line:#2b3036; --accent:#7fb0e8; --accent-soft:#1d2a3a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.6 "Public Sans",system-ui,sans-serif}
+  .wrap{max-width:960px;margin:0 auto;padding:56px 16px 72px}
+  .eyebrow{font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted)}
+  h1{font:700 clamp(40px,8vw,64px)/1.05 "Newsreader",Georgia,serif;margin:14px 0 8px;letter-spacing:-.01em}
+  .expansion{font:500 20px/1.35 "Newsreader",Georgia,serif;color:var(--muted);margin:0 0 20px}
+  .lede{max-width:640px;margin:0 0 40px}
+  .lede .pt{color:var(--muted);font-size:15px;margin-top:10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  a.card{display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid var(--line);
+    border-radius:10px;background:var(--paper-raised);color:inherit;text-decoration:none;
+    transition:border-color .15s,transform .15s}
+  a.card:hover,a.card:focus-visible{border-color:var(--accent);transform:translateY(-1px);outline:none}
+  .card h2{font:600 22px/1.2 "Newsreader",Georgia,serif;margin:0}
+  .card p{margin:0;color:var(--muted);font-size:15px}
+  .card .go{margin-top:auto;padding-top:8px;color:var(--accent);font-weight:600;font-size:14px}
+  .note{margin-top:40px;padding:14px 16px;border-radius:8px;background:var(--accent-soft);font-size:14px}
+  .more{margin-top:40px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px}
+  .more a{color:var(--accent)}
+  footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--faint);
+    font:400 12px/1.5 "IBM Plex Mono",ui-monospace,monospace}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="eyebrow">Prototype · v0.1.1 · Open source</div>
+  <h1>MINERVA</h1>
+  <p class="expansion">Mineral Extraction Verification &amp; Regulatory Accountability</p>
+  <div class="lede">
+    <p>An open mirror of the mining operator's software stack, built for the public sector out of
+    public data. Every number it shows can be re-derived by a third party from public inputs.</p>
+    <p class="pt">Supervisão pública da mineração, com dados públicos e evidência verificável.
+    Relatório disponível em português e inglês.</p>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="minerva-report.html">
+      <h2>Report</h2>
+      <p>The full document: summary, report, architecture, demonstration and sourced evidence base. EN / PT.</p>
+      <span class="go">Read the report →</span>
+    </a>
+    <a class="card" href="minerva-dashboard.html">
+      <h2>Dashboard</h2>
+      <p>The operational view: four demonstration sites as a case queue.</p>
+      <span class="go">Open the dashboard →</span>
+    </a>
+    <a class="card" href="minerva-map.html">
+      <h2>Map</h2>
+      <p>GIS prototype: the sites with their cross-agency reference chains (ANM, IBAMA, ICMBio, FUNAI, INCRA, ANA).</p>
+      <span class="go">Open the map →</span>
+    </a>
+  </div>
+
+  <p class="note">All demonstration sites, operators and registry numbers are simulated. No real company,
+  site or agency record is shown.</p>
+
+  <nav class="more">
+    <a href="docs/00-MINERVA.md">Source document (Markdown)</a>
+    <a href="docs/03-catalogues.xlsx">Reference workbook (.xlsx)</a>
+    <a href="LICENCE-NOTE.md">Licensing note</a>
+    <a href="LICENSE">Apache-2.0 licence</a>
+  </nav>
+
+  <footer>MINERVA · Apache-2.0</footer>
+</main>
+</body>
+</html>

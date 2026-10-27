@@ -1,0 +1,8 @@
+# Core — the only hard requirement
+numpy>=1.24
+
+# Recommended: morphology, charts, evidence images
+scipy>=1.10
+scikit-image>=0.21
+matplotlib>=3.7
+Pillow>=10.0

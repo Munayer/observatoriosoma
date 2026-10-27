@@ -1,0 +1,17 @@
+-r requirements.txt
+
+# Live imagery (production provider)
+pystac-client>=0.7
+rasterio>=1.3
+requests>=2.31
+
+# Optional accelerators — the core works without all of these
+shapely>=2.0
+pyproj>=3.6
+dask[array]>=2023.1
+
+# Workbook generation
+openpyxl>=3.1
+
+# Test runner (tests/run_tests.py works without it)
+pytest>=7.4

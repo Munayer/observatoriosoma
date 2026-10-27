@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MINERVA — GIS Prototype</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f6f6f3;
+  --paper-raised: #ffffff;
+  --ink: #181b1f;
+  --muted: #5c6169;
+  --faint: #8a8f96;
+  --line: #dfe0dc;
+  --accent: #1f5fa6;
+  --accent-ink: #ffffff;
+  --accent-soft: #e7eef7;
+  --code-bg: #eceae4;
+  --ok: #0ca30c;
+  --warn: #b8860a;
+  --miss: #ac3f3f;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14171b; --paper-raised: #1a1e23; --ink: #e9e7e1; --muted: #9a9fa4;
+    --faint: #6b7076; --line: #282d33; --accent: #7db0e8; --accent-ink: #0e1114;
+    --accent-soft: #1c2733; --code-bg: #1e2328;
+    --ok: #4fbf4f; --warn: #d9a441; --miss: #e07a7a;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #14171b; --paper-raised: #1a1e23; --ink: #e9e7e1; --muted: #9a9fa4;
+  --faint: #6b7076; --line: #282d33; --accent: #7db0e8; --accent-ink: #0e1114;
+  --accent-soft: #1c2733; --code-bg: #1e2328;
+  --ok: #4fbf4f; --warn: #d9a441; --miss: #e07a7a;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: "Public Sans", -apple-system, "Segoe UI", sans-serif;
+  font-size: 15.5px; line-height: 1.55;
+}
+.shell {
+  display: grid;
+  grid-template-columns: 300px 1fr 340px;
+  height: 100vh;
+}
+@media (max-width: 980px) {
+  .shell { grid-template-columns: 1fr; grid-template-rows: auto 45vh auto; height: auto; }
+}
+
+/* left: site list */
+.sitelist {
+  border-right: 1px solid var(--line);
+  padding: 20px 18px;
+  overflow-y: auto;
+}
+.mark { font-family: "Newsreader", Georgia, serif; font-weight: 600; font-size: 1.15rem; margin-bottom: 4px; }
+.mark .glyph { color: var(--accent); }
+.tagline { color: var(--muted); font-size: 0.82rem; margin-bottom: 18px; line-height: 1.5; }
+.banner {
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+.banner strong { color: var(--ink); }
+.sitecard {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  background: var(--paper-raised);
+}
+.sitecard:hover { border-color: var(--accent); }
+.sitecard.active { border-color: var(--accent); background: var(--accent-soft); }
+.sitecard .id { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; color: var(--accent); }
+.sitecard .holder { font-size: 0.85rem; margin: 3px 0; }
+.sitecard .meta { font-size: 0.74rem; color: var(--muted); }
+.sev { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; }
+.sev-critical { background: var(--miss); }
+.sev-high { background: var(--warn); }
+.sev-low { background: var(--ok); }
+
+/* map */
+#map { width: 100%; height: 100%; background: var(--paper); }
+
+/* right: detail panel */
+.detail {
+  border-left: 1px solid var(--line);
+  padding: 20px 18px;
+  overflow-y: auto;
+}
+.detail h2 {
+  font-family: "Newsreader", Georgia, serif; font-size: 1.15rem; margin: 0 0 2px;
+}
+.detail .sub { color: var(--muted); font-size: 0.8rem; margin-bottom: 16px; }
+.detail h3 {
+  font-family: "Public Sans", sans-serif; font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);
+  margin: 20px 0 8px; padding-top: 14px; border-top: 1px solid var(--line);
+}
+.detail h3:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+.coord { font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; }
+.agency {
+  display: flex; justify-content: space-between; gap: 10px;
+  padding: 7px 0; border-bottom: 1px dotted var(--line); font-size: 0.82rem;
+}
+.agency:last-child { border-bottom: none; }
+.agency .who { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.agency .ref { font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; text-align: right; max-width: 190px; }
+.agency .ref.miss { color: var(--miss); font-style: italic; font-family: "Public Sans", sans-serif; }
+.thread {
+  display: flex; flex-direction: column; gap: 0; font-size: 0.8rem;
+}
+.thread .step { display: flex; gap: 8px; padding: 6px 0; align-items: flex-start; }
+.thread .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: 6px; flex: none; }
+.thread .line { flex: 1; }
+.thread .line .k { color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.thread .line code { font-size: 0.74rem; }
+.exportrow { display: flex; gap: 8px; margin-top: 14px; }
+button.xport {
+  flex: 1; font-family: "IBM Plex Mono", monospace; font-size: 0.74rem;
+  border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink);
+  padding: 8px 6px; border-radius: 6px; cursor: pointer;
+}
+button.xport:hover { border-color: var(--accent); color: var(--accent); }
+code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 3px; }
+.empty { color: var(--faint); font-size: 0.85rem; padding: 40px 4px; text-align: center; }
+.leaflet-popup-content-wrapper { background: var(--paper-raised); color: var(--ink); }
+.leaflet-popup-content { font-family: "Public Sans", sans-serif; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sitelist">
+    <div class="mark"><span class="glyph">M</span> MINERVA — GIS prototype</div>
+    <div class="tagline">Where the case geography and the cross-agency paper trail meet. Click a site.</div>
+    <div class="banner"><strong>All data on this page is synthetic</strong> — the same four demonstration sites used throughout the report, with fabricated registry numbers. No real company, site, or agency record is represented. See §6.3 of the <a href="minerva-report.html#en-63-what-is-synthetic-and-said-so">main report</a> for methodology.</div>
+    <div id="siteListEl"></div>
+  </aside>
+  <div id="map"></div>
+  <aside class="detail" id="detailEl">
+    <div class="empty">Select a site on the map or from the list to see its cross-agency reference chain, evidence thread, and export options.</div>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// ---------------------------------------------------------------------------
+// Synthetic demonstration data — mirrors the four sites in the main report's
+// portfolio (src/minerva/portfolio.py). Coordinates match; polygons are
+// illustrative (a few km across, not the pipeline's exact computed geometry).
+// Every registry reference below is fabricated for this prototype.
+// ---------------------------------------------------------------------------
+function box(lat, lon, halfKmLat, halfKmLon) {
+  var dLat = halfKmLat / 111.0;
+  var dLon = halfKmLon / (111.0 * Math.cos(lat * Math.PI / 180));
+  return [[lat - dLat, lon - dLon], [lat - dLat, lon + dLon],
+          [lat + dLat, lon + dLon], [lat + dLat, lon - dLon]];
+}
+
+var SITES = [
+  {
+    id: "BR-PA-0001", uf: "PA", severity: "critical", state: "contested",
+    holder: "Mineradora Exemplo S.A. (simulated)", substance: "iron ore / minério de ferro",
+    lat: -6.45, lon: -56.12,
+    licence: box(-6.45, -56.12, 1.1, 1.1),
+    footprint: box(-6.435, -56.108, 0.85, 1.3),
+    protected: box(-6.40, -56.06, 1.3, 1.3),
+    protectedName: "RESEX Simulada do Tapajós",
+    narrative: "Expansion accelerates sharply, then crosses the licence boundary into a conservation unit. Declaration does not keep pace. The holder has answered on part of it.",
+    manifestHash: "b7e2f0…c46fd",
+    agencies: [
+      { who: "ANM", label: "Processo minerário", ref: "830.123/2018", found: true },
+      { who: "IBAMA", label: "Licenciamento ambiental federal", ref: "02001.004521/2019-17 — LO vigente, condicionantes em cobrança", found: true },
+      { who: "ICMBio", label: "Unidade de conservação sobreposta", ref: "RESEX Simulada do Tapajós (CNUC 0000.777)", found: true },
+      { who: "FUNAI", label: "Terra Indígena", ref: "Nenhuma sobreposição registrada", found: false },
+      { who: "INCRA", label: "Assentamento", ref: "Nenhum assentamento na área", found: false },
+      { who: "ANA", label: "Outorga de recursos hídricos", ref: "Outorga nº 12345/2019 (Barragem B1, simulated)", found: true },
+    ],
+  },
+  {
+    id: "BR-MT-0002", uf: "MT", severity: "critical", state: "notified",
+    holder: "Requerente pessoa física (simulated)", substance: "gold / ouro",
+    lat: -10.11, lon: -55.02,
+    licence: box(-10.11, -55.02, 0.9, 0.9),
+    footprint: box(-10.095, -55.01, 1.1, 1.15),
+    protected: box(-10.05, -54.96, 1.2, 1.2),
+    protectedName: "APA Simulada do Alto Xingu",
+    narrative: "Sustained extraction on nothing more than a pending application. A requerimento de pesquisa authorises no works at all.",
+    manifestHash: "1a44de…9f102",
+    agencies: [
+      { who: "ANM", label: "Processo minerário", ref: "906.774/2023 — requerimento de pesquisa", found: true },
+      { who: "IBAMA", label: "Licenciamento ambiental federal", ref: "Nenhum processo de licenciamento localizado", found: false },
+      { who: "ICMBio", label: "Unidade de conservação sobreposta", ref: "APA Simulada do Alto Xingu (CNUC 0000.412)", found: true },
+      { who: "FUNAI", label: "Terra Indígena", ref: "Sobreposição parcial — parecer técnico solicitado (proc. 2025.SIM.041)", found: true },
+      { who: "INCRA", label: "Assentamento", ref: "Nenhum assentamento na área", found: false },
+      { who: "ANA", label: "Outorga de recursos hídricos", ref: "Nenhuma outorga localizada", found: false },
+    ],
+  },
+  {
+    id: "BR-MG-0003", uf: "MG", severity: "high", state: "screened",
+    holder: "Companhia Mineral do Vale Simulado", substance: "iron ore / minério de ferro",
+    lat: -20.31, lon: -43.55,
+    licence: box(-20.31, -43.55, 1.0, 1.0),
+    footprint: box(-20.30, -43.545, 1.05, 1.1),
+    protected: null,
+    narrative: "Title recorded as suspended, yet the working surface keeps growing and no production is declared. Its tailings structure creeps steadily but is not accelerating.",
+    manifestHash: "5c091b…7a3d4",
+    agencies: [
+      { who: "ANM", label: "Processo minerário", ref: "831.400/2011 — suspenso", found: true },
+      { who: "IBAMA", label: "Licenciamento ambiental federal", ref: "Não aplicável — licenciamento estadual (SEMAD-MG)", found: false },
+      { who: "ICMBio", label: "Unidade de conservação sobreposta", ref: "Nenhuma sobreposição", found: false },
+      { who: "FUNAI", label: "Terra Indígena", ref: "Nenhuma sobreposição", found: false },
+      { who: "INCRA", label: "Assentamento", ref: "Nenhum assentamento na área", found: false },
+      { who: "ANA", label: "Outorga de recursos hídricos", ref: "Outorga nº 8823/2016 (Barragem Norte, simulated) — em regularização", found: true },
+    ],
+  },
+  {
+    id: "BR-GO-0004", uf: "GO", severity: "low", state: "closed",
+    holder: "Cooperativa Mineral Simulada", substance: "limestone / calcário",
+    lat: -15.62, lon: -49.80,
+    licence: box(-15.62, -49.80, 1.0, 1.0),
+    footprint: box(-15.62, -49.80, 0.75, 0.78),
+    protected: null,
+    narrative: "Everything inside the licence, growth modest, declaration in the middle of the peer distribution. Raised by the routine screen, examined, and cleared.",
+    manifestHash: "9b709e…4ba5a",
+    agencies: [
+      { who: "ANM", label: "Processo minerário", ref: "860.055/2015 — ativo", found: true },
+      { who: "IBAMA", label: "Licenciamento ambiental federal", ref: "LO vigente, sem pendências", found: true },
+      { who: "ICMBio", label: "Unidade de conservação sobreposta", ref: "Nenhuma sobreposição", found: false },
+      { who: "FUNAI", label: "Terra Indígena", ref: "Nenhuma sobreposição", found: false },
+      { who: "INCRA", label: "Assentamento", ref: "Nenhum assentamento na área", found: false },
+      { who: "ANA", label: "Outorga de recursos hídricos", ref: "Outorga nº 4410/2015 — vigente, sem irregularidades", found: true },
+    ],
+  },
+];
+
+var map = null;
+var mapReady = false;
+try {
+  map = L.map("map", { zoomControl: true }).setView([-13.0, -52.0], 4.3);
+  var darkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  var basemapStyle = darkMode ? "dark_all" : "light_all";
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/" + basemapStyle + "/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: "abcd",
+    maxZoom: 19,
+  }).addTo(map);
+  mapReady = true;
+} catch (e) {
+  document.getElementById("map").innerHTML =
+    '<div class="empty" style="padding:2rem">Map tiles could not be loaded (no network access to the basemap/Leaflet CDN from this environment). ' +
+    "The site list, cross-agency detail panel, and CSV/GeoJSON export below are unaffected — open this file with normal internet access to see the live map.</div>";
+}
+
+var STYLE = {
+  licence: { color: "#1f5fa6", weight: 2, fill: false, dashArray: "4 3" },
+  footprint: { color: "#c0552f", weight: 1.5, fillColor: "#c0552f", fillOpacity: 0.28 },
+  protected: { color: "#2f8f5b", weight: 1.5, fillColor: "#2f8f5b", fillOpacity: 0.14, dashArray: "2 4" },
+};
+var SEV_COLOR = { critical: "#ac3f3f", high: "#b8860a", low: "#0ca30c" };
+
+var layers = {};
+var activeId = null;
+
+function siteLayerGroup(site) {
+  var g = L.layerGroup();
+  L.polygon(site.licence, STYLE.licence).addTo(g).bindTooltip("Licensed polygon / polígono do título");
+  L.polygon(site.footprint, STYLE.footprint).addTo(g).bindTooltip("Detected disturbed footprint / área antropizada detectada");
+  if (site.protected) {
+    L.polygon(site.protected, STYLE.protected).addTo(g).bindTooltip(site.protectedName);
+  }
+  var marker = L.circleMarker([site.lat, site.lon], {
+    radius: 7, color: "#fff", weight: 2, fillColor: SEV_COLOR[site.severity], fillOpacity: 1,
+  }).addTo(g);
+  marker.bindPopup("<strong>" + site.id + "</strong><br>" + site.holder);
+  marker.on("click", function () { selectSite(site.id); });
+  return g;
+}
+
+if (mapReady) {
+  SITES.forEach(function (s) {
+    layers[s.id] = siteLayerGroup(s).addTo(map);
+  });
+}
+
+function renderList() {
+  var el = document.getElementById("siteListEl");
+  el.innerHTML = "";
+  SITES.forEach(function (s) {
+    var card = document.createElement("div");
+    card.className = "sitecard" + (s.id === activeId ? " active" : "");
+    card.innerHTML =
+      '<div class="id"><span class="sev sev-' + s.severity + '"></span>' + s.id + " · " + s.uf + "</div>" +
+      '<div class="holder">' + s.holder + "</div>" +
+      '<div class="meta">' + s.substance + " — " + s.state + "</div>";
+    card.addEventListener("click", function () { selectSite(s.id); if (mapReady) { map.flyTo([s.lat, s.lon], 11, { duration: 0.6 }); } });
+    el.appendChild(card);
+  });
+}
+
+function agencyRow(a) {
+  return '<div class="agency"><div class="who">' + a.who + "<br>" +
+    '<span style="text-transform:none;color:var(--faint)">' + a.label + "</span></div>" +
+    '<div class="ref' + (a.found ? "" : " miss") + '">' + a.ref + "</div></div>";
+}
+
+function csvEscape(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }
+
+function exportSiteCSV(site) {
+  var rows = [["site_id", "holder", "substance", "state", "lat", "lon", "agency", "field", "reference", "found"]];
+  site.agencies.forEach(function (a) {
+    rows.push([site.id, site.holder, site.substance, site.state, site.lat, site.lon, a.who, a.label, a.ref, a.found]);
+  });
+  var csv = rows.map(function (r) { return r.map(csvEscape).join(","); }).join("\n");
+  downloadText(site.id + "_cross_agency_refs.csv", csv, "text/csv");
+}
+
+function exportAllGeoJSON() {
+  var fc = {
+    type: "FeatureCollection",
+    features: SITES.map(function (s) {
+      return {
+        type: "Feature",
+        properties: {
+          site_id: s.id, holder: s.holder, substance: s.substance,
+          severity: s.severity, state: s.state,
+          agencies: s.agencies,
+          note: "SYNTHETIC DEMONSTRATION DATA — no real registry numbers.",
+        },
+        geometry: { type: "Point", coordinates: [s.lon, s.lat] },
+      };
+    }),
+  };
+  downloadText("minerva_sites_cross_agency.geojson", JSON.stringify(fc, null, 2), "application/geo+json");
+}
+
+function downloadText(filename, text, mime) {
+  var blob = new Blob([text], { type: mime });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+}
+
+function selectSite(id) {
+  activeId = id;
+  renderList();
+  var site = SITES.filter(function (s) { return s.id === id; })[0];
+  var el = document.getElementById("detailEl");
+  var utmZone = Math.floor((site.lon + 180) / 6) + 1;
+  el.innerHTML =
+    "<h2>" + site.id + "</h2>" +
+    '<div class="sub">' + site.holder + " · " + site.substance + "</div>" +
+
+    "<h3>Coordinates</h3>" +
+    '<div class="coord">' + site.lat.toFixed(5) + ", " + site.lon.toFixed(5) + " (WGS84)</div>" +
+    '<div class="coord" style="color:var(--muted)">UTM zone ' + utmZone + "S</div>" +
+
+    "<h3>Cross-agency reference chain</h3>" +
+    site.agencies.map(agencyRow).join("") +
+
+    "<h3>Evidence thread</h3>" +
+    '<div class="thread">' +
+      threadStep("Satellite scene", "Sentinel-2 L2A monthly composite (synthetic provider)") +
+      threadStep("Detector output", "footprint.spectral_rule v1.0.0 → Observation") +
+      threadStep("Evidence manifest", "sealed, hash " + site.manifestHash) +
+      threadStep("Cadastral cross-check", "crosscheck.cadastre v1.0.0 vs. ANM title " + (site.agencies[0].ref.split(" —")[0])) +
+      threadStep("Registry cross-references", site.agencies.filter(function(a){return a.found;}).map(function(a){return a.who;}).join(", ") || "none matched") +
+      threadStep("Case state", site.state) +
+    "</div>" +
+
+    '<div class="exportrow">' +
+      '<button class="xport" id="btnCsv">Export this site (CSV)</button>' +
+      '<button class="xport" id="btnGeo">Export all (GeoJSON)</button>' +
+    "</div>";
+
+  document.getElementById("btnCsv").addEventListener("click", function () { exportSiteCSV(site); });
+  document.getElementById("btnGeo").addEventListener("click", exportAllGeoJSON);
+}
+
+function threadStep(k, v) {
+  return '<div class="step"><div class="dot"></div><div class="line"><div class="k">' + k + '</div>' + v + "</div></div>";
+}
+
+renderList();
+</script>
+</body>
+</html>
