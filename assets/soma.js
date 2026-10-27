@@ -14,6 +14,7 @@
     { key: "report",    href: "report.html",    en: "Report",    pt: "Relatório" },
     { key: "dashboard", href: "dashboard.html", en: "Dashboard", pt: "Painel" },
     { key: "map",       href: "map.html",       en: "Map",       pt: "Mapa" },
+    { key: "mg",        href: "mg.html",        en: "Minas Gerais", pt: "Minas Gerais" },
     { key: "team",      href: "team.html",      en: "Team",      pt: "Equipe" }
   ];
   var SITE_KEYS = ["report", "dashboard", "map"];
@@ -42,6 +43,7 @@
   }
   function pageKey() {
     var f = location.pathname.split("/").pop().replace(/\.html$/, "");
+    if (f === "mg-mapa") return "mg";
     return f === "" || f === "index" ? "home" : f;
   }
   function siteFromHash() {

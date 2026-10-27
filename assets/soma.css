@@ -3,7 +3,7 @@
    Commission's operational guidelines for recipients of EU funding (2021-2027):
    Noto Sans, deep blue headings, a blue cover band and mint labels and rules.
    Pages opened on their own (from a USB stick, say) still work without it.
-   Pages link it as assets/soma.css?v=…; bump that tag in every page (and in
+   Pages link it as assets/soma.css?v=…; bump that tag in every page (and in build_mg.py,
    build_report_html.py and src/soma/dashboard.py) when this file or soma.js
    changes, since the host lets browsers reuse a cached copy for up to an hour. */
 

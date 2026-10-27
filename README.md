@@ -31,6 +31,26 @@ Three companion HTML files, each self-contained (no build step, no server):
 component, jurisdiction (cadastre, royalty regime, dam-safety rule, due-process basis) and
 the vendor landscape this architecture responds to, plus a live cost model.
 
+### Minas Gerais: strategic minerals (real ANM data)
+
+- **`mg.html`** — the consolidated report on active ANM processes for lithium, manganese,
+  rare earths, niobium, nickel, copper and cobalt in Minas Gerais, with a phase chart and a
+  live count from ANM's SIGMINE API set against the extract.
+- **`mg-mapa.html`** — the GIS: processes per municipality (IBGE mesh) from the extract,
+  and the live process polygons queried from SIGMINE
+  (`geo.anm.gov.br/arcgis/rest/services/SIGMINE/dados_anm/MapServer/0`), with a
+  per-mineral check of the API against the extract.
+
+Both are generated from the Observatory's workbook and report:
+
+```bash
+python build_mg.py anm_mg_municipios_2026-10-17.xlsx Minerais_estrategicos_MG_relatorio_consolidado_2026-10-17.docx
+```
+
+This writes `mg.html` and `data/mg/` (summary, per-municipality counts, the IBGE mesh and a
+CSV of the processes). Holder names are not published; each process links to its record in
+ANM's Cadastro Mineiro. The workbook itself stays out of the repository.
+
 ---
 
 ## Run it

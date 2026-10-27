@@ -1,0 +1,298 @@
+{
+ "fonte": "ANM, SIGMINE PROCESSOS_MINERARIOS, MG.zip",
+ "extracao": "16/10/2026",
+ "relatorio": "17/10/2026",
+ "api": "https://geo.anm.gov.br/arcgis/rest/services/SIGMINE/dados_anm/MapServer/0",
+ "grupos": [
+  "pesquisa",
+  "lavra",
+  "disponibilidade",
+  "outros"
+ ],
+ "total": {
+  "n": 3995,
+  "area_ha": 4884116
+ },
+ "minerais": [
+  {
+   "chave": "litio",
+   "nome": "Lítio",
+   "subs": [
+    "MINÉRIO DE LÍTIO",
+    "LÍTIO"
+   ],
+   "n": 2106,
+   "area_ha": 2822788,
+   "desde2020": 1941,
+   "grupos": [
+    2068,
+    15,
+    23,
+    0
+   ],
+   "fases": {
+    "AUTORIZAÇÃO DE PESQUISA": [
+     1928,
+     2654860
+    ],
+    "REQUERIMENTO DE PESQUISA": [
+     140,
+     127254
+    ],
+    "APTO PARA DISPONIBILIDADE": [
+     19,
+     28717
+    ],
+    "REQUERIMENTO DE LAVRA": [
+     10,
+     4438
+    ],
+    "CONCESSÃO DE LAVRA": [
+     4,
+     1761
+    ],
+    "DISPONIBILIDADE": [
+     4,
+     5434
+    ],
+    "DIREITO DE REQUERER A LAVRA": [
+     1,
+     324
+    ]
+   }
+  },
+  {
+   "chave": "manganes",
+   "nome": "Manganês",
+   "subs": [
+    "MINÉRIO DE MANGANÊS",
+    "MANGANÊS",
+    "FERRO MANGANÊS"
+   ],
+   "n": 902,
+   "area_ha": 848735,
+   "desde2020": 246,
+   "grupos": [
+    683,
+    143,
+    76,
+    0
+   ],
+   "fases": {
+    "AUTORIZAÇÃO DE PESQUISA": [
+     535,
+     600113
+    ],
+    "REQUERIMENTO DE PESQUISA": [
+     148,
+     116956
+    ],
+    "REQUERIMENTO DE LAVRA": [
+     82,
+     31022
+    ],
+    "DISPONIBILIDADE": [
+     61,
+     56201
+    ],
+    "CONCESSÃO DE LAVRA": [
+     54,
+     20201
+    ],
+    "APTO PARA DISPONIBILIDADE": [
+     15,
+     18843
+    ],
+    "DIREITO DE REQUERER A LAVRA": [
+     7,
+     5399
+    ]
+   }
+  },
+  {
+   "chave": "terras-raras",
+   "nome": "Terras raras",
+   "subs": [
+    "TERRAS RARAS"
+   ],
+   "n": 537,
+   "area_ha": 608832,
+   "desde2020": 523,
+   "grupos": [
+    529,
+    8,
+    0,
+    0
+   ],
+   "fases": {
+    "AUTORIZAÇÃO DE PESQUISA": [
+     455,
+     548242
+    ],
+    "REQUERIMENTO DE PESQUISA": [
+     74,
+     54333
+    ],
+    "REQUERIMENTO DE LAVRA": [
+     5,
+     2691
+    ],
+    "DIREITO DE REQUERER A LAVRA": [
+     3,
+     3566
+    ]
+   }
+  },
+  {
+   "chave": "niobio",
+   "nome": "Nióbio",
+   "subs": [
+    "MINÉRIO DE NIÓBIO",
+    "NIÓBIO"
+   ],
+   "n": 236,
+   "area_ha": 366705,
+   "desde2020": 185,
+   "grupos": [
+    223,
+    8,
+    5,
+    0
+   ],
+   "fases": {
+    "AUTORIZAÇÃO DE PESQUISA": [
+     207,
+     336885
+    ],
+    "REQUERIMENTO DE PESQUISA": [
+     16,
+     20207
+    ],
+    "REQUERIMENTO DE LAVRA": [
+     7,
+     3310
+    ],
+    "APTO PARA DISPONIBILIDADE": [
+     3,
+     1423
+    ],
+    "DISPONIBILIDADE": [
+     2,
+     3933
+    ],
+    "CONCESSÃO DE LAVRA": [
+     1,
+     947
+    ]
+   }
+  },
+  {
+   "chave": "niquel",
+   "nome": "Níquel",
+   "subs": [
+    "MINÉRIO DE NÍQUEL",
+    "NÍQUEL"
+   ],
+   "n": 115,
+   "area_ha": 111159,
+   "desde2020": 25,
+   "grupos": [
+    94,
+    6,
+    15,
+    0
+   ],
+   "fases": {
+    "AUTORIZAÇÃO DE PESQUISA": [
+     74,
+     79526
+    ],
+    "REQUERIMENTO DE PESQUISA": [
+     20,
+     10045
+    ],
+    "DISPONIBILIDADE": [
+     13,
+     16762
+    ],
+    "CONCESSÃO DE LAVRA": [
+     4,
+     410
+    ],
+    "APTO PARA DISPONIBILIDADE": [
+     2,
+     3382
+    ],
+    "REQUERIMENTO DE LAVRA": [
+     2,
+     1034
+    ]
+   }
+  },
+  {
+   "chave": "cobre",
+   "nome": "Cobre",
+   "subs": [
+    "MINÉRIO DE COBRE",
+    "COBRE"
+   ],
+   "n": 94,
+   "area_ha": 119470,
+   "desde2020": 40,
+   "grupos": [
+    80,
+    3,
+    10,
+    1
+   ],
+   "fases": {
+    "AUTORIZAÇÃO DE PESQUISA": [
+     70,
+     93308
+    ],
+    "REQUERIMENTO DE PESQUISA": [
+     10,
+     7860
+    ],
+    "DISPONIBILIDADE": [
+     6,
+     10691
+    ],
+    "APTO PARA DISPONIBILIDADE": [
+     4,
+     6442
+    ],
+    "CONCESSÃO DE LAVRA": [
+     3,
+     1119
+    ],
+    "REQUERIMENTO DE LAVRA GARIMPEIRA": [
+     1,
+     50
+    ]
+   }
+  },
+  {
+   "chave": "cobalto",
+   "nome": "Cobalto",
+   "subs": [
+    "MINÉRIO DE COBALTO"
+   ],
+   "n": 5,
+   "area_ha": 6427,
+   "desde2020": 5,
+   "grupos": [
+    5,
+    0,
+    0,
+    0
+   ],
+   "fases": {
+    "AUTORIZAÇÃO DE PESQUISA": [
+     5,
+     6427
+    ]
+   }
+  }
+ ]
+}

@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Observatório SOMA — GIS Prototype</title>
-<link rel="stylesheet" href="assets/soma.css?v=20261027b">
-<script src="assets/soma.js?v=20261027b"></script>
+<link rel="stylesheet" href="assets/soma.css?v=20261027c">
+<script src="assets/soma.js?v=20261027c"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -160,6 +160,9 @@ button.xport:hover { border-color: var(--accent); color: var(--accent); }
 code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 3px; }
 .empty { color: var(--faint); font-size: 0.85rem; padding: 40px 4px; text-align: center; }
 .leaflet-popup-content-wrapper { background: var(--paper-raised); color: var(--ink); }
+/* OSM has no dark style: dim and invert the tiles in dark mode */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.85) contrast(.9) saturate(.6); } }
+:root[data-theme="dark"] .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.85) contrast(.9) saturate(.6); }
 .leaflet-popup-content { font-family: "Noto Sans", Arial, "Helvetica Neue", sans-serif; font-size: 0.85rem; }
 </style>
 </head>
@@ -273,11 +276,9 @@ var map = null;
 var mapReady = false;
 try {
   map = L.map("map", { zoomControl: true }).setView([-13.0, -52.0], 4.3);
-  var darkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  var basemapStyle = darkMode ? "dark_all" : "light_all";
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/" + basemapStyle + "/{z}/{x}/{y}{r}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: "abcd",
+  // OpenStreetMap's own tiles: open, keyless (CARTO's basemaps now require an API key).
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 19,
   }).addTo(map);
   mapReady = true;
