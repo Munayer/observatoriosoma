@@ -1724,21 +1724,23 @@ number, and whether they agree with each other.
 demonstration sites used throughout this document. It is delivered as a separate file rather
 than folded into this report, for a specific technical reason: a live map needs to fetch map
 tiles from a tile server over the network, and the sandboxed page this report itself is
-published as cannot make that kind of request. Opened as its own file, the map has no such
+published as cannot make that kind of request. Served as its own page, the map has no such
 restriction.
 
-A note on the basemap itself: the prototype uses CARTO's free Positron/Dark Matter tiles
-(built from OpenStreetMap data) rather than fetching directly from `tile.openstreetmap.org`.
-OpenStreetMap's own tile servers are volunteer-run infrastructure with a usage policy that
-blocks requests lacking a valid `Referer` header — which is exactly what a browser sends, or
-fails to send, when a page is opened straight from disk (`file://`) rather than served over
-`http(s)://`. Routing through CARTO's CDN, which does not enforce that check, keeps the map
-usable however the file is opened, while the underlying map data is still OpenStreetMap's.
+A note on the basemap itself: the prototype fetches its tiles directly from OpenStreetMap's
+own servers (`tile.openstreetmap.org`), which need no API key. CARTO's Positron/Dark Matter
+tiles, which earlier versions used, now require one, and a key committed to the project's
+public repository could be used by anyone. OpenStreetMap's tile servers are volunteer-run
+infrastructure with a usage policy that blocks requests lacking a valid `Referer` header. A
+browser sends that header for a page served over `http(s)://` — the published site, or any
+local web server such as `python -m http.server` — and sends none for a page opened straight
+from disk (`file://`), whose tile requests are then blocked. OpenStreetMap's servers offer no
+dark style; in a dark browser theme the page inverts and dims the same tiles with a CSS filter.
 
 ### 6.2 What is on the map
 
-A CARTO base layer (light in a light browser theme, dark in a dark one), built from
-OpenStreetMap data, the four sites plotted at their (synthetic) coordinates, each
+An OpenStreetMap base layer (light in a light browser theme, inverted in a dark one), the
+four sites plotted at their (synthetic) coordinates, each
 with its licensed polygon, its detected disturbed-surface footprint, and — where relevant —
 the protected-area polygon it overlaps. Clicking a site opens a panel with:
 
@@ -3676,23 +3678,25 @@ O `map.html` é um protótipo funcional dessa superfície, construído sobre os 
 quatro sítios de demonstração usados ao longo deste documento. Ele é entregue como um arquivo
 separado, e não incorporado a este relatório, por uma razão técnica específica: um mapa ao
 vivo precisa buscar blocos de mapa (tiles) de um servidor pela rede, e a página em sandbox na
-qual este próprio relatório é publicado não pode fazer esse tipo de requisição. Aberto como
-arquivo próprio, o mapa não tem essa restrição.
+qual este próprio relatório é publicado não pode fazer esse tipo de requisição. Servido como
+página própria, o mapa não tem essa restrição.
 
-Uma nota sobre a própria camada de base: o protótipo usa os tiles gratuitos Positron/Dark
-Matter da CARTO (construídos a partir de dados do OpenStreetMap), em vez de buscar
-diretamente em `tile.openstreetmap.org`. Os servidores de tiles do próprio OpenStreetMap são
-infraestrutura mantida por voluntários, com uma política de uso que bloqueia requisições sem
-um cabeçalho `Referer` válido — exatamente o que um navegador envia, ou deixa de enviar,
-quando uma página é aberta diretamente do disco (`file://`) em vez de servida via
-`http(s)://`. Passar pelo CDN da CARTO, que não aplica essa verificação, mantém o mapa
-utilizável seja como for que o arquivo seja aberto, enquanto os dados de mapa subjacentes
-continuam sendo do OpenStreetMap.
+Uma nota sobre a própria camada de base: o protótipo busca os tiles diretamente nos
+servidores do próprio OpenStreetMap (`tile.openstreetmap.org`), que não exigem chave de API.
+Os tiles Positron/Dark Matter da CARTO, usados em versões anteriores, passaram a exigir uma,
+e uma chave gravada no repositório público do projeto poderia ser usada por qualquer pessoa.
+Os servidores de tiles do OpenStreetMap são infraestrutura mantida por voluntários, com uma
+política de uso que bloqueia requisições sem um cabeçalho `Referer` válido. O navegador envia
+esse cabeçalho para uma página servida via `http(s)://` — o site publicado ou qualquer
+servidor web local, como `python -m http.server` — e não o envia para uma página aberta
+diretamente do disco (`file://`), cujas requisições de tiles são então bloqueadas. Os
+servidores do OpenStreetMap não oferecem estilo escuro; com o navegador em tema escuro, a
+página inverte e atenua os mesmos tiles com um filtro CSS.
 
 ### 6.2 O que está no mapa
 
-Uma camada de base da CARTO (clara em tema claro, escura em tema escuro), construída a
-partir de dados do OpenStreetMap, os quatro sítios plotados em suas coordenadas
+Uma camada de base do OpenStreetMap (clara em tema claro, invertida em tema escuro), os
+quatro sítios plotados em suas coordenadas
 (sintéticas), cada um com seu polígono licenciado, sua área antropizada detectada e — onde
 pertinente — o polígono da área protegida com a qual se sobrepõe. Clicar num sítio abre um
 painel com:
