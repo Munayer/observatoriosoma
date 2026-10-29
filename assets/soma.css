@@ -146,7 +146,9 @@ html { scroll-padding-top: calc(var(--soma-bar-h) + 12px); }
 
 /* ---------- EU funding footer ----------
    Emblem and funding statement are the official files, unmodified, kept clear of
-   the SOMA mark and shown at least 1 cm high (here 56 px). */
+   the SOMA mark and shown at least 1 cm high (here 56 px). The Jean Monnet Centre
+   of Excellence logo sits beside it at the same height: under the EU rules no logo
+   shown with the emblem may be larger than it. */
 .soma-foot {
   background: var(--soma-paper); color: var(--soma-text-2);
   border-top: 4px solid var(--soma-mint);
@@ -156,7 +158,8 @@ html { scroll-padding-top: calc(var(--soma-bar-h) + 12px); }
   max-width: 1180px; margin: 0 auto; padding: 28px 20px 32px;
   display: grid; grid-template-columns: auto 1fr; gap: 20px 40px; align-items: center;
 }
-.soma-emblem { display: block; height: 56px; width: auto; padding: 8px 0; }
+.soma-logos { display: flex; flex-wrap: wrap; align-items: center; column-gap: 32px; }
+.soma-emblem { display: block; box-sizing: content-box; height: 56px; width: auto; padding: 8px 0; }
 .soma-emblem.neg { display: none; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .soma-emblem.pos { display: none; }

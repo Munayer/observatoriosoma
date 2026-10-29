@@ -93,10 +93,16 @@
     }
     var l = lang();
     var alt = l === "pt" ? "Cofinanciado pela União Europeia" : "Co-funded by the European Union";
+    // The Jean Monnet Centre of Excellence logo exists only in Portuguese,
+    // so both languages show that version.
+    var cejm = l === "pt" ? "Centro de Excelência Jean Monnet"
+      : "Centro de Excelência Jean Monnet (Jean Monnet Centre of Excellence)";
     foot.innerHTML =
       '<div class="soma-foot-in">' +
-      '<div><img class="soma-emblem pos" src="assets/eu/co-funded-' + l + '-pos.png" alt="' + alt + '" width="240" height="56">' +
-      '<img class="soma-emblem neg" src="assets/eu/co-funded-' + l + '-neg.png" alt="' + alt + '" width="240" height="56"></div>' +
+      '<div class="soma-logos"><img class="soma-emblem pos" src="assets/eu/co-funded-' + l + '-pos.png" alt="' + alt + '" width="240" height="56">' +
+      '<img class="soma-emblem neg" src="assets/eu/co-funded-' + l + '-neg.png" alt="' + alt + '" width="240" height="56">' +
+      '<img class="soma-emblem pos" src="assets/cejm/cejm-pt-pos.png" alt="' + cejm + '" width="76" height="56">' +
+      '<img class="soma-emblem neg" src="assets/cejm/cejm-pt-neg.png" alt="' + cejm + '" width="76" height="56"></div>' +
       "<p>" + DISCLAIMER[l] + "</p>" +
       '<div class="soma-foot-meta">' +
       "<span>" + (l === "pt"
